@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logic", "Logic", "{58BA0F79-63E9-4332-8074-D408124F8205}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ui", "Ui", "{E865EE96-A8DF-4B49-80A8-35E182BD9515}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ui.Desktop", "Ui.Desktop\Ui.Desktop.csproj", "{2888C57E-940B-420B-9052-73840846EC3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ui.Logic", "Ui.Logic\Ui.Logic.csproj", "{D7171689-63C7-4095-8F32-8622F987FC49}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2888C57E-940B-420B-9052-73840846EC3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2888C57E-940B-420B-9052-73840846EC3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2888C57E-940B-420B-9052-73840846EC3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2888C57E-940B-420B-9052-73840846EC3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7171689-63C7-4095-8F32-8622F987FC49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7171689-63C7-4095-8F32-8622F987FC49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7171689-63C7-4095-8F32-8622F987FC49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7171689-63C7-4095-8F32-8622F987FC49}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2888C57E-940B-420B-9052-73840846EC3D} = {E865EE96-A8DF-4B49-80A8-35E182BD9515}
+		{D7171689-63C7-4095-8F32-8622F987FC49} = {58BA0F79-63E9-4332-8074-D408124F8205}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B45FC1F-93F2-4CC4-A56E-83417F2E6DF8}
+	EndGlobalSection
+EndGlobal

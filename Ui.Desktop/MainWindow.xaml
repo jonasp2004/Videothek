@@ -1,0 +1,79 @@
+﻿<Window x:Class="Ui.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Ui.Desktop"
+        mc:Ignorable="d"
+        Title="{Binding WindowTitle, Mode=OneWay}" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True"
+        DataContext="{Binding Main, Source={StaticResource Locator}}" FontFamily="{StaticResource EncodeSans}" FontSize="16" Icon="Images/movie-roll.png" ResizeMode="CanResizeWithGrip">
+    <Border x:Name="windowBorder" Background="#FFF1F1F1" CornerRadius="5" Margin="10" RenderTransformOrigin="0.5,0.5" >
+        <Border.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform x:Name="windowScale" />
+            </TransformGroup>
+        </Border.RenderTransform>
+        <Border.Effect>
+            <DropShadowEffect Direction="270" BlurRadius="10" ShadowDepth="1" />
+        </Border.Effect>
+        <Grid>
+            <!-- Fenster-Titelleiste -->
+            <Border Height="60" VerticalAlignment="Top" CornerRadius="5,5,0,0">
+                <Border.Background>
+                    <ImageBrush ImageSource="/UIElements/window_titlebar.png"/>
+                </Border.Background>
+                <Grid>
+                    <Border HorizontalAlignment="Right" Width="65" CornerRadius="0,5,0,0" >
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFD3D1D3"/>
+                                <GradientStop Color="#7FFFFFFF" Offset="1"/>
+                                <GradientStop Color="#FFA2A2A2" Offset="0.01"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Image Source="/Images/movie-roll.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="50" Width="50" />
+                    </Border>
+                    <TextBlock x:Name="windowTitle" Text="{Binding WindowTitle, Mode=OneWay}" TextAlignment="Center" Padding="0,4,0,0" MouseDown="windowTitle_MouseDown" />
+                    <Ellipse x:Name="ell_closeWindow" Fill="Red" Stroke="DarkRed" Margin="6,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" MouseDown="ell_closeWindow_MouseDown" MouseEnter="ell_closeWindow_MouseEnter" MouseLeave="ell_closeWindow_MouseLeave" />
+                    <Ellipse x:Name="ell_minimizeWindow" Fill="Yellow" Stroke="Orange" Margin="28,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" MouseDown="ell_minimizeWindow_MouseDown" MouseEnter="ell_minimizeWindow_MouseEnter" MouseLeave="ell_minimizeWindow_MouseLeave" />
+                    <Ellipse x:Name="ell_maximizeWindow" Fill="Green" Stroke="DarkGreen" Margin="50,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" MouseDown="ell_maximizeWindow_MouseDown" MouseEnter="ell_maximizeWindow_MouseEnter" MouseLeave="ell_maximizeWindow_MouseLeave" />
+                </Grid>
+            </Border>
+            <Menu Margin="0,30,0,0" Padding="5" FontFamily="{StaticResource EncodeSans}" FontSize="14" Background="{x:Null}" Height="30" VerticalAlignment="Top">
+                <MenuItem Header="Start">
+                    <MenuItem Header="Startseite" />
+                    <MenuItem x:Name="mi_search" Header="Suche" Click="mi_search_Click"/>
+                </MenuItem>
+                <MenuItem Header="Ausleihe">
+                    <MenuItem Header="Alle Medien" />
+                    <MenuItem Header="Zufälliges Angebot" />
+                    <MenuItem Header="Kategorien" />
+                </MenuItem>
+                <MenuItem Header="Anmeldung">
+                    <MenuItem Header="Benutzer-Login" Command="{Binding ShowLogin}" />
+                    <MenuItem Header="Mitarbeiter-Login" Command="{Binding ShowLoginEmp}" />
+                    <MenuItem Header="Abmelden"  />
+                </MenuItem>
+                <MenuItem Header="Verwaltung">
+                    <MenuItem x:Name="mi_manageUsers" Header="Benutzer verwalten" Click="mi_manageUsers_Click" />
+                    <MenuItem x:Name="mi_manageMedia" Header="Medien verwalten" Click="mi_manageMedia_Click" />
+                </MenuItem>
+                <MenuItem Header="Über">
+                    <MenuItem x:Name="mi_about" Header="Über Videothek" Click="mi_about_Click" />
+                    <MenuItem Header="Nach Updates suchen" />
+                </MenuItem>
+            </Menu>
+            <Frame Source="/Frames/MainPage.xaml" Margin="0,60,0,0"/>
+        </Grid>
+        <Border.Triggers>
+            <EventTrigger RoutedEvent="Window.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="0.1" To="1" Duration="0:0:0.3" />
+                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="0.1" To="1" Duration="0:0:0.3" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Border.Triggers>
+    </Border>
+</Window>
