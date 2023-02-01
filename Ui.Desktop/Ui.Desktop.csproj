@@ -73,14 +73,26 @@
     <Compile Include="Frames\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Frames\MainPageLoggedIn.xaml.cs">
+      <DependentUpon>MainPageLoggedIn.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AccountWindow.xaml.cs">
+      <DependentUpon>AccountWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Logout.xaml.cs">
+      <DependentUpon>Logout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\MediaManagement.xaml.cs">
       <DependentUpon>MediaManagement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Register.xaml.cs">
+      <DependentUpon>Register.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
@@ -89,6 +101,10 @@
       <DependentUpon>UserManagement.xaml</DependentUpon>
     </Compile>
     <Page Include="Frames\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Frames\MainPageLoggedIn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -108,11 +124,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\AccountWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\Logout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MediaManagement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Register.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -172,7 +200,7 @@
     <Resource Include="UIElements\window_titlebar.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pages\" />
+    <Resource Include="Images\user.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\movie-roll.png" />
@@ -197,6 +225,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\edit_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\account_circle_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\close_fullscreen_24dp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

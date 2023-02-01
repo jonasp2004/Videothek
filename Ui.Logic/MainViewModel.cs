@@ -1,10 +1,7 @@
-using DocumentFormat.OpenXml.Drawing.Charts;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -20,6 +17,8 @@ namespace Ui.Logic.ViewModel {
                 WindowTitle = "Videothek";
             }
 
+            // Bereite Beispieldaten auf
+
             media = new ObservableCollection<MediaList>();
             media.Add(new MediaList(1, "Test 1", 11, 5, "DVD"));
             media.Add(new MediaList(2, "Test 2", 11, 9, "Blu-Ray"));
@@ -32,6 +31,9 @@ namespace Ui.Logic.ViewModel {
             media.Add(new MediaList(8, "Das ultimative Curry-Kochbuch", 1, 9999, "Buch"));
             media.Add(new MediaList(9, "AJs Workouts am Grill", 6, 23, "Buch"));
             media.Add(new MediaList(10, "Tolle Musik-Collection", 12, 6, "Musik-CD"));
+
+            UserName = "@benutzerName2023";
+            FullName = "Benutzer Name";
         }
 
         private List<string> _MediaSelection { get; set; }
@@ -75,5 +77,10 @@ namespace Ui.Logic.ViewModel {
 
             public string Name { get; set; }
         }
+
+        private string _UserName { get; set; }
+        public string UserName { get { return _UserName; } set { _UserName = value; RaisePropertyChanged(); } }
+        private string _FullName { get; set; }
+        public string FullName  { get { return _FullName; } set { _FullName = value; RaisePropertyChanged(); } } 
     }
 }

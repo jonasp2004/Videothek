@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Ui.Desktop.Frames;
 using Ui.Desktop.Windows;
 
 namespace Ui.Desktop {
@@ -19,9 +21,12 @@ namespace Ui.Desktop {
             }
         }
 
+        protected async Task Timer(int duration) {
+            await Task.Delay(duration);
+        }
 
         // Roter Button-Verhalten
-        private void ell_closeWindow_MouseDown(object sender, MouseButtonEventArgs e) { Environment.Exit(0); }
+        private async void ell_closeWindow_MouseDown(object sender, MouseButtonEventArgs e) { await Timer(150); Environment.Exit(0); }
 
         private void ell_closeWindow_MouseEnter(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.DarkRed; }
 
@@ -70,6 +75,34 @@ namespace Ui.Desktop {
         private void mi_manageMedia_Click(object sender, RoutedEventArgs e) {
             MediaManagement media = new MediaManagement();
             media.Show();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e) {
+            Login login = new Login();
+            login.ShowDialog();
+            MainPageLoggedIn mainPageLoggedIn= new MainPageLoggedIn();
+            fr_Main.Content = mainPageLoggedIn;
+            grd_loggedIn.Visibility = Visibility.Visible;
+            grd_loggedOut.Visibility = Visibility.Collapsed;
+        }
+
+        private void mi_logout_Click(object sender, RoutedEventArgs e) {
+            Logout logout = new Logout();
+            logout.ShowDialog();
+            MainPage mainPage = new MainPage();
+            fr_Main.Content = mainPage;
+            grd_loggedIn.Visibility = Visibility.Collapsed;
+            grd_loggedOut.Visibility = Visibility.Visible;
+        }
+
+        private void btn_register_Click(object sender, RoutedEventArgs e) {
+            Register register = new Register();
+            register.ShowDialog();
+        }
+
+        private void btn_myAccount_Click(object sender, RoutedEventArgs e) {
+            AccountWindow account = new AccountWindow();
+            account.ShowDialog();
         }
     }
 }

@@ -5,10 +5,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Ui.Desktop.Windows {
-
-    public partial class Login : Window
-    {
-        public Login() {
+    public partial class AccountWindow : Window {
+        public AccountWindow() {
             InitializeComponent();
         }
 
@@ -32,15 +30,5 @@ namespace Ui.Desktop.Windows {
         private void ell_closeWindow_MouseEnter(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.DarkRed; }
 
         private void ell_closeWindow_MouseLeave(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.Red; }
-
-        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e) {
-            Register register = new Register();
-            register.ShowDialog();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

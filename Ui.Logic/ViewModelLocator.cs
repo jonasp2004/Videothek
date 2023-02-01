@@ -37,6 +37,9 @@ namespace Ui.Logic.ViewModel {
             SimpleIoc.Default.Register<SearchViewModel>();
             SimpleIoc.Default.Register<UsermanagerViewModel>();
             SimpleIoc.Default.Register<MediamanagementViewModel>();
+            SimpleIoc.Default.Register<LoginViewModel>();
+            SimpleIoc.Default.Register<RegisterViewModel>();
+            SimpleIoc.Default.Register<AccountViewModel>();
         }
         
         public MainViewModel Main {
@@ -66,6 +69,18 @@ namespace Ui.Logic.ViewModel {
         public MediamanagementViewModel MediaManagement {
             get {
                 return ServiceLocator.Current.GetInstance<MediamanagementViewModel>();
+            }
+        }
+
+        public RegisterViewModel Register {
+            get {
+                return ServiceLocator.Current.GetInstance<RegisterViewModel>();
+            }
+        }
+
+        public AccountViewModel Account {
+            get {
+                return ServiceLocator.Current.GetInstance<AccountViewModel>();
             }
         }
 

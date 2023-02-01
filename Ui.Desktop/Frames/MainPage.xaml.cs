@@ -8,10 +8,5 @@ namespace Ui.Desktop.Frames {
         public MainPage() {
             InitializeComponent();
         }
-
-        private void btn_loginAsCustomer_Click(object sender, RoutedEventArgs e) {
-            Login login = new Login();
-            login.Show();
-        }
     }
 }

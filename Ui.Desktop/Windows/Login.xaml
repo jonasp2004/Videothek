@@ -42,8 +42,8 @@
             <TextBox Margin="10,55,10,0" VerticalAlignment="Top" />
             <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="Passwort" Margin="10,82,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <TextBox Margin="10,102,10,0" VerticalAlignment="Top" />
-            <TextBlock Text="Du hast noch kein Benutzerkonto? Hier registrieren!" Margin="0,0,10,10" TextDecorations="Underline" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FF0084FF" />
-            <Button BorderBrush="{x:Null}" Foreground="White" Content="Anmelden" Margin="0,0,10,30" HorizontalAlignment="Right" Width="116" Height="34" VerticalAlignment="Bottom">
+            <TextBlock Text="Du hast noch kein Benutzerkonto? Hier registrieren!" Cursor="Hand" Margin="0,0,10,10" TextDecorations="Underline" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FF0084FF" MouseDown="TextBlock_MouseDown" />
+            <Button BorderBrush="{x:Null}" Foreground="White" Content="Anmelden" Margin="0,0,10,30" HorizontalAlignment="Right" Width="116" Height="34" VerticalAlignment="Bottom" Click="Button_Click">
                 <Button.Background>
                     <ImageBrush ImageSource="/UIElements/buttons/btn_blue.png"/>
                 </Button.Background>

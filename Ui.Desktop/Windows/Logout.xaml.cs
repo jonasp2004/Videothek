@@ -6,9 +6,8 @@ using System.Windows.Media;
 
 namespace Ui.Desktop.Windows {
 
-    public partial class Login : Window
-    {
-        public Login() {
+    public partial class Logout : Window {
+        public Logout() {
             InitializeComponent();
         }
 
@@ -33,14 +32,16 @@ namespace Ui.Desktop.Windows {
 
         private void ell_closeWindow_MouseLeave(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.Red; }
 
-        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e) {
-            Register register = new Register();
-            register.ShowDialog();
+
+        private async void btn_logOut_Click(object sender, RoutedEventArgs e) {
+            // Abmelden
+            await Timer(200);
+            this.Close();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
+        private async void Button_Click(object sender, RoutedEventArgs e) {
+            await Timer(200);
+            this.Close();
         }
     }
 }

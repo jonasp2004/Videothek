@@ -5,19 +5,11 @@ namespace Ui.Logic.ViewModel {
     public class LoginViewModel : ViewModelBase {
 
         public string WindowTitle { get; set; }
-        public LoginViewModel(bool isEmployeeLogin) {
+        public LoginViewModel() {
             if (IsInDesignMode) {
-                if(isEmployeeLogin) {
-                    WindowTitle = "Mitarbeiter-Login (Designer-Ansicht)";
-                } else {
-                    WindowTitle = "Kunden-Login (Designer-Ansicht)";
-                }
+                WindowTitle = "Login (Designer-Ansicht)";
             } else {
-                if (isEmployeeLogin) {
-                    WindowTitle = "Mitarbeiter-Login";
-                } else {
-                    WindowTitle = "Kunden-Login";
-                }
+                WindowTitle = "Login";
             }
         }
     }

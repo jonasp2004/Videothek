@@ -34,25 +34,50 @@
                         <Image Source="/Images/movie-roll.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="50" Width="50" />
                     </Border>
                     <TextBlock x:Name="windowTitle" Text="{Binding WindowTitle, Mode=OneWay}" TextAlignment="Center" Padding="0,4,0,0" MouseDown="windowTitle_MouseDown" />
-                    <Ellipse x:Name="ell_closeWindow" Fill="Red" Stroke="DarkRed" Margin="6,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" MouseDown="ell_closeWindow_MouseDown" MouseEnter="ell_closeWindow_MouseEnter" MouseLeave="ell_closeWindow_MouseLeave" />
+                    <Grid Margin="6,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" >
+                        <Ellipse x:Name="ell_closeWindow" Fill="Red" Stroke="DarkRed" MouseDown="ell_closeWindow_MouseDown" MouseEnter="ell_closeWindow_MouseEnter" MouseLeave="ell_closeWindow_MouseLeave" />
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="Ellipse.MouseDown">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="0" From="1" Duration="0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Grid.Triggers>
+                    </Grid>
+                    <Button x:Name="btn_showUserFlyout" Margin="0,0,75,0" Background="{x:Null}" BorderBrush="{x:Null}" Height="40" VerticalAlignment="Center" HorizontalAlignment="Right" Width="40">
+                        <Image Source="/Images/account_circle_black_24dp.png" Height="24" Width="26"  />
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="Button.Click">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="0.1" To="1" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="0.1" To="1" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
                     <Ellipse x:Name="ell_minimizeWindow" Fill="Yellow" Stroke="Orange" Margin="28,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" MouseDown="ell_minimizeWindow_MouseDown" MouseEnter="ell_minimizeWindow_MouseEnter" MouseLeave="ell_minimizeWindow_MouseLeave" />
                     <Ellipse x:Name="ell_maximizeWindow" Fill="Green" Stroke="DarkGreen" Margin="50,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" MouseDown="ell_maximizeWindow_MouseDown" MouseEnter="ell_maximizeWindow_MouseEnter" MouseLeave="ell_maximizeWindow_MouseLeave" />
                 </Grid>
             </Border>
-            <Menu Margin="0,30,0,0" Padding="5" FontFamily="{StaticResource EncodeSans}" FontSize="14" Background="{x:Null}" Height="30" VerticalAlignment="Top">
+            <Menu Margin="0,30,116,0" Padding="5" FontFamily="{StaticResource EncodeSans}" FontSize="14" Background="{x:Null}" Height="30" VerticalAlignment="Top">
                 <MenuItem Header="Start">
                     <MenuItem Header="Startseite" />
                     <MenuItem x:Name="mi_search" Header="Suche" Click="mi_search_Click"/>
                 </MenuItem>
                 <MenuItem Header="Ausleihe">
+                    <MenuItem Header="Meine Inhalte" />
                     <MenuItem Header="Alle Medien" />
                     <MenuItem Header="Zufälliges Angebot" />
                     <MenuItem Header="Kategorien" />
                 </MenuItem>
                 <MenuItem Header="Anmeldung">
-                    <MenuItem Header="Benutzer-Login" Command="{Binding ShowLogin}" />
-                    <MenuItem Header="Mitarbeiter-Login" Command="{Binding ShowLoginEmp}" />
-                    <MenuItem Header="Abmelden"  />
+                    <MenuItem Header="Anmelden" Click="MenuItem_Click"  />
+                    <MenuItem x:Name="mi_logout" Header="Abmelden" Click="mi_logout_Click"  />
                 </MenuItem>
                 <MenuItem Header="Verwaltung">
                     <MenuItem x:Name="mi_manageUsers" Header="Benutzer verwalten" Click="mi_manageUsers_Click" />
@@ -63,7 +88,64 @@
                     <MenuItem Header="Nach Updates suchen" />
                 </MenuItem>
             </Menu>
-            <Frame Source="/Frames/MainPage.xaml" Margin="0,60,0,0"/>
+            <Frame x:Name="fr_Main" Source="/Frames/MainPage.xaml" Margin="0,60,0,0" NavigationUIVisibility="Hidden"/>
+            <Border Margin="0,10,10,0" Background="#FFE2E2E2" CornerRadius="3" RenderTransformOrigin="0.625,0.143" Height="123" VerticalAlignment="Top" HorizontalAlignment="Right" Width="227">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="flyoutTransform" ScaleX="0" ScaleY="0"/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" ShadowDepth="1" BlurRadius="10" />
+                </Border.Effect>
+                <Grid>
+                    <Image Source="/Images/account_circle_black_24dp.png" Opacity="0.2" Height="246" VerticalAlignment="Center" HorizontalAlignment="Center" Width="311" />
+                    <TextBlock Text="Mein Account" FontFamily="{StaticResource EncodeSansBlack}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,8,0,0" />
+                    <Button Margin="198,5,4,0" Background="{x:Null}" BorderBrush="{x:Null}" Height="25" VerticalAlignment="Top">
+                        <Image Source="/Images/close_fullscreen_24dp.png" />
+                    </Button>
+                    <Grid x:Name="grd_loggedIn" Margin="0,30,0,0" Visibility="Collapsed">
+                        <Image Source="/Images/user.png" Margin="10,10,0,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40" />
+                        <TextBlock Text="{Binding FullName}" Margin="55,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <TextBlock Text="{Binding UserName}" Margin="55,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12" />
+                        <Button x:Name="btn_logout" BorderBrush="{x:Null}" Margin="0,0,6,5" Content="Abmelden" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="mi_logout_Click" >
+                            <Button.Background>
+                                <ImageBrush ImageSource="/UIElements/buttons/btn_base.png"/>
+                            </Button.Background>
+                        </Button>
+                        <Button x:Name="btn_myAccount" BorderBrush="{x:Null}" Margin="0,0,103,5" Content="Verwalten" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="btn_myAccount_Click" >
+                            <Button.Background>
+                                <ImageBrush ImageSource="/UIElements/buttons/btn_base.png"/>
+                            </Button.Background>
+                        </Button>
+                    </Grid>
+                    <Grid x:Name="grd_loggedOut" Margin="0,30,0,0">
+                        <TextBlock Text="Oh! Du bist leider nicht angemeldet." Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap" Width="207" TextAlignment="Center" />
+
+                        <Button x:Name="btn_register" BorderBrush="{x:Null}" Margin="0,0,6,5" Content="Registrieren" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="btn_register_Click" >
+                            <Button.Background>
+                                <ImageBrush ImageSource="/UIElements/buttons/btn_base.png"/>
+                            </Button.Background>
+                        </Button>
+                        <Button x:Name="btn_login" BorderBrush="{x:Null}" Margin="0,0,103,5" Content="Anmelden" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="MenuItem_Click" >
+                            <Button.Background>
+                                <ImageBrush ImageSource="/UIElements/buttons/btn_base.png"/>
+                            </Button.Background>
+                        </Button>
+                    </Grid>
+
+                </Grid>
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="0" From="1" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Border.Triggers>
+            </Border>
         </Grid>
         <Border.Triggers>
             <EventTrigger RoutedEvent="Window.Loaded">
