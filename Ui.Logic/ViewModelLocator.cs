@@ -40,6 +40,8 @@ namespace Ui.Logic.ViewModel {
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<RegisterViewModel>();
             SimpleIoc.Default.Register<AccountViewModel>();
+            SimpleIoc.Default.Register<OfferingsViewModel>();
+            SimpleIoc.Default.Register<MyContentsViewModel>();
         }
         
         public MainViewModel Main {
@@ -84,12 +86,17 @@ namespace Ui.Logic.ViewModel {
             }
         }
 
+        public OfferingsViewModel Offers {
+            get {
+                return ServiceLocator.Current.GetInstance<OfferingsViewModel>();
+            }
+        }
 
-        //public LoginViewModel Login {
-        //    get {
-        //        return ServiceLocator.Current.GetInstance<LoginViewModel>();
-        //    }
-        //}
+        public MyContentsViewModel MyContent {
+            get {
+                return ServiceLocator.Current.GetInstance<MyContentsViewModel>();
+            }
+        }
 
         public static void Cleanup() {
             // TODO Clear the ViewModels

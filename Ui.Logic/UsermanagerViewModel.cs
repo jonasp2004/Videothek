@@ -13,8 +13,7 @@ namespace Ui.Logic.ViewModel {
                 WindowTitle = "Benutzerverwaltung";
             }
 
-            Users = new ObservableCollection<UserList>
-            {
+            Users = new ObservableCollection<UserList> {
                 new UserList(1, 1, "jopraast2004", "jonas.praast@tsbw.cloud", "Testpasswort", "2004-09-05"),
                 new UserList(2, 2, "joprast2004", "jonas.prasst@tsbw.cloud", "Testpasswort123", "")
             };

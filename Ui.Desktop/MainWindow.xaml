@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         Title="{Binding WindowTitle, Mode=OneWay}" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True"
         DataContext="{Binding Main, Source={StaticResource Locator}}" FontFamily="{StaticResource EncodeSans}" FontSize="16" Icon="Images/movie-roll.png" ResizeMode="CanResizeWithGrip">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="UI_Elements.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Border x:Name="windowBorder" Background="#FFF1F1F1" CornerRadius="5" Margin="10" RenderTransformOrigin="0.5,0.5" >
         <Border.RenderTransform>
             <TransformGroup>
@@ -47,14 +54,22 @@
                             </EventTrigger>
                         </Grid.Triggers>
                     </Grid>
-                    <Button x:Name="btn_showUserFlyout" Margin="0,0,75,0" Background="{x:Null}" BorderBrush="{x:Null}" Height="40" VerticalAlignment="Center" HorizontalAlignment="Right" Width="40">
+                    <Button x:Name="btn_showUserFlyout" Margin="0,0,75,0" Style="{StaticResource squareButton}" BorderBrush="{x:Null}" Height="40" VerticalAlignment="Center" HorizontalAlignment="Right" Width="40" RenderTransformOrigin="0.5,0.5">
                         <Image Source="/Images/account_circle_black_24dp.png" Height="24" Width="26"  />
                         <Button.Triggers>
                             <EventTrigger RoutedEvent="Button.Click">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="0.1" To="1" Duration="0:0:0.1" />
-                                        <DoubleAnimation Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="0.1" To="1" Duration="0:0:0.1" />
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)">
+                                            <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0"/>
+                                            <LinearDoubleKeyFrame Value="1.1" KeyTime="0:0:0.15"/>
+                                            <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)">
+                                            <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0"/>
+                                            <LinearDoubleKeyFrame Value="1.1" KeyTime="0:0:0.15"/>
+                                            <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -66,14 +81,12 @@
             </Border>
             <Menu Margin="0,30,116,0" Padding="5" FontFamily="{StaticResource EncodeSans}" FontSize="14" Background="{x:Null}" Height="30" VerticalAlignment="Top">
                 <MenuItem Header="Start">
-                    <MenuItem Header="Startseite" />
+                    <MenuItem x:Name="mi_start" Header="Startseite" Click="mi_start_Click" />
                     <MenuItem x:Name="mi_search" Header="Suche" Click="mi_search_Click"/>
                 </MenuItem>
                 <MenuItem Header="Ausleihe">
-                    <MenuItem Header="Meine Inhalte" />
-                    <MenuItem Header="Alle Medien" />
-                    <MenuItem Header="Zufälliges Angebot" />
-                    <MenuItem Header="Kategorien" />
+                    <MenuItem x:Name="mi_myContents" Header="Meine Inhalte" Click="mi_myContents_Click" />
+                    <MenuItem x:Name="mi_alleMedien" Header="Alle Medien" Click="mi_alleMedien_Click" />
                 </MenuItem>
                 <MenuItem Header="Anmeldung">
                     <MenuItem Header="Anmelden" Click="MenuItem_Click"  />
@@ -108,32 +121,15 @@
                         <Image Source="/Images/user.png" Margin="10,10,0,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40" />
                         <TextBlock Text="{Binding FullName}" Margin="55,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                         <TextBlock Text="{Binding UserName}" Margin="55,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12" />
-                        <Button x:Name="btn_logout" BorderBrush="{x:Null}" Margin="0,0,6,5" Content="Abmelden" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="mi_logout_Click" >
-                            <Button.Background>
-                                <ImageBrush ImageSource="/UIElements/buttons/btn_base.png"/>
-                            </Button.Background>
-                        </Button>
-                        <Button x:Name="btn_myAccount" BorderBrush="{x:Null}" Margin="0,0,103,5" Content="Verwalten" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="btn_myAccount_Click" >
-                            <Button.Background>
-                                <ImageBrush ImageSource="/UIElements/buttons/btn_base.png"/>
-                            </Button.Background>
-                        </Button>
+                        <Button x:Name="btn_logout" Style="{StaticResource normalButton}" Margin="0,0,6,5" Content="Abmelden" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="mi_logout_Click"/>
+                        <Button x:Name="btn_myAccount" Style="{StaticResource normalButton}" Margin="0,0,103,5" Content="Verwalten" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="btn_myAccount_Click" />
                     </Grid>
                     <Grid x:Name="grd_loggedOut" Margin="0,30,0,0">
                         <TextBlock Text="Oh! Du bist leider nicht angemeldet." Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap" Width="207" TextAlignment="Center" />
 
-                        <Button x:Name="btn_register" BorderBrush="{x:Null}" Margin="0,0,6,5" Content="Registrieren" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="btn_register_Click" >
-                            <Button.Background>
-                                <ImageBrush ImageSource="/UIElements/buttons/btn_base.png"/>
-                            </Button.Background>
-                        </Button>
-                        <Button x:Name="btn_login" BorderBrush="{x:Null}" Margin="0,0,103,5" Content="Anmelden" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="MenuItem_Click" >
-                            <Button.Background>
-                                <ImageBrush ImageSource="/UIElements/buttons/btn_base.png"/>
-                            </Button.Background>
-                        </Button>
+                        <Button x:Name="btn_register" Style="{StaticResource normalButton}" Margin="0,0,6,5" Content="Registrieren" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="btn_register_Click" />
+                        <Button x:Name="btn_login" Style="{StaticResource normalButton}" Margin="0,0,103,5" Content="Anmelden" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="MenuItem_Click" />
                     </Grid>
-
                 </Grid>
                 <Border.Triggers>
                     <EventTrigger RoutedEvent="Button.Click">

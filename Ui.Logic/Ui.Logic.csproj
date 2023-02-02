@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountViewModel.cs" />
+    <Compile Include="MyContentsViewModel.cs" />
+    <Compile Include="OfferingsViewModel.cs" />
     <Compile Include="RegisterViewModel.cs" />
     <Compile Include="MediamanagementViewModel.cs" />
     <Compile Include="SearchViewModel.cs" />

@@ -29,7 +29,6 @@
                             <EventTrigger RoutedEvent="Ellipse.MouseDown">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="0.01" From="1" Duration="0:0:0.07" />
                                         <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0.009" From="1" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
@@ -59,6 +58,16 @@
                     <Button BorderBrush="{x:Null}" Command="{Binding PrepareSendData}" Foreground="White" Margin="0,188,0,151" Content="Änderungen übernehmen" FontSize="12" HorizontalAlignment="Center" Width="136" >
                         <Button.Background>
                             <ImageBrush ImageSource="/UIElements/buttons/btn_blue.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="btn_requestMyData" BorderBrush="{x:Null}" Margin="0,300,0,0" Content="Meine Daten anfordern" FontSize="12" HorizontalAlignment="Center" Width="124" Height="32" VerticalAlignment="Top" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="/UIElements/buttons/btn_base.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="btn_removeAccount_Copy" BorderBrush="{x:Null}" Margin="0,337,0,0" Content="Account löschen" FontSize="12" HorizontalAlignment="Center" Width="100" Height="29" VerticalAlignment="Top" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="/UIElements/buttons/btn_base.png"/>
                         </Button.Background>
                     </Button>
                 </Grid>
@@ -95,18 +104,18 @@
                     <EventTrigger RoutedEvent="CheckBox.Checked">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="1" To="0.95" Duration="0:0:0.1" />
-                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="1" To="0.95" Duration="0:0:0.1" />
-                                <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" To="15" From="0" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="1" To="0.98" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="1" To="0.98" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" To="25" From="0" Duration="0:0:0.1" />
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
                     <EventTrigger RoutedEvent="CheckBox.Unchecked">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1" From="0.95" Duration="0:0:0.1" />
-                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="1" From="0.95" Duration="0:0:0.1" />
-                                <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" From="15" To="0" Duration="0:0:0.05" />
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1" From="0.98" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="1" From="0.98" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" From="25" To="0" Duration="0:0:0.05" />
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>

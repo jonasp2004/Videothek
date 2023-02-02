@@ -6,9 +6,8 @@ using System.Windows.Media;
 
 namespace Ui.Desktop.Windows {
 
-    public partial class Login : Window
-    {
-        public Login() {
+    public partial class ContentDetail : Window {
+        public ContentDetail() {
             InitializeComponent();
         }
 
@@ -33,15 +32,8 @@ namespace Ui.Desktop.Windows {
 
         private void ell_closeWindow_MouseLeave(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.Red; }
 
-        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e) {
-            Register register = new Register();
-            register.ShowDialog();
-        }
-
-        private async void Button_Click(object sender, RoutedEventArgs e) {
-            // Login kommt hier (oder im ViewModel)
-            await Timer(200);
-            this.Close();
+        private void ScrollViewer_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e) {
+            blr_imageBlur.Radius = scr_textScroll.VerticalOffset / 5;
         }
     }
 }

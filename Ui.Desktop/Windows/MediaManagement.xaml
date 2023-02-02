@@ -35,7 +35,6 @@
                             <EventTrigger RoutedEvent="Ellipse.MouseDown">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="0.01" From="1" Duration="0:0:0.07" />
                                         <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0.009" From="1" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>

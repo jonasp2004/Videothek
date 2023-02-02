@@ -33,7 +33,7 @@ namespace Ui.Logic.ViewModel {
             media.Add(new MediaList(10, "Tolle Musik-Collection", 12, 6, "Musik-CD"));
 
             UserName = "@benutzerName2023";
-            FullName = "Benutzer Name";
+            FullName = "Benutzer Hans";
         }
 
         private List<string> _MediaSelection { get; set; }

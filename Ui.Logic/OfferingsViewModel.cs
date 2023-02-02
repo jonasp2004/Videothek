@@ -1,18 +1,23 @@
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Ui.Logic.ViewModel {
 
-    public class MediamanagementViewModel : ViewModelBase {
+    public class OfferingsViewModel : ViewModelBase {
 
         public string WindowTitle { get; set; }
-        public MediamanagementViewModel() {
+        public OfferingsViewModel() {
             if (IsInDesignMode) {
-                WindowTitle = "Medienverwaltung (Designer-Ansicht)";
+                WindowTitle = "Alle Inhalte (Designer-Ansicht)";
             } else {
-                WindowTitle = "Medienverwaltung";
+                WindowTitle = "Alle Inhalte";
             }
+
+            // Bereite Beispieldaten auf
 
             media = new ObservableCollection<MediaList>();
             media.Add(new MediaList(1, "Test 1", 11, 5, "DVD"));
@@ -26,6 +31,8 @@ namespace Ui.Logic.ViewModel {
             media.Add(new MediaList(8, "Das ultimative Curry-Kochbuch", 1, 9999, "Buch"));
             media.Add(new MediaList(9, "AJs Workouts am Grill", 6, 23, "Buch"));
             media.Add(new MediaList(10, "Tolle Musik-Collection", 12, 6, "Musik-CD"));
+
+            ComboBoxSelection = 0;
         }
 
         private List<string> _MediaSelection { get; set; }
@@ -35,18 +42,19 @@ namespace Ui.Logic.ViewModel {
         public ObservableCollection<MediaList> media { get { return _media; } set { _media = value; RaisePropertyChanged(); } }
         public class MediaList {
             public MediaList(int articleId, string name, int amount, decimal leasePrice, string category) {
-                Artikelnummer = articleId;
+                Artikelnummer = articleId.ToString();
                 Name = name;
-                Menge = amount;
-                Leihpreis = leasePrice;
-                Kategorie = category;
+                Typ = category;
+                Preis = leasePrice.ToString() + " €";
             }
 
-            public int Artikelnummer { get; set; }
+            public string Artikelnummer { get; set; }
             public string Name { get; set; }
-            public int Menge { get; set; }
-            public decimal Leihpreis { get; set; }
-            public string Kategorie { get; set; }
+            public string Typ { get; set; }
+            public string Preis { get; set; }
         }
+
+        private int _ComboBoxSelection { get; set; }
+        public int ComboBoxSelection { get { return _ComboBoxSelection; } set { _ComboBoxSelection = value; RaisePropertyChanged(); } }
     }
 }

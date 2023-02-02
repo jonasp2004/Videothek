@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         DataContext="{Binding search, Source={StaticResource Locator}}" FontSize="16" ResizeMode="NoResize" ShowInTaskbar="False" FontFamily="{StaticResource EncodeSans}"
         Title="Über Videothek" Height="180" Width="389" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\UI_Elements.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Border x:Name="windowBorder" Background="#FFF1F1F1" CornerRadius="5" Margin="10" RenderTransformOrigin="0.5,0.5">
         <Border.RenderTransform>
             <TransformGroup>
@@ -30,8 +37,7 @@
                             <EventTrigger RoutedEvent="Ellipse.MouseDown">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="0.01" From="1" Duration="0:0:0.07" />
-                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0.009" From="1" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -52,17 +58,26 @@
             <TextBox Margin="10,85,10,0" VerticalAlignment="Top" Background="{x:Null}" />
             <ListBox Margin="10,113,10,57" Background="White" BorderBrush="{x:Null}" />
             <Grid Background="#4C000000" Margin="10,113,10,57" >
-                <TextBlock Text="Laden..." HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Text="Laden..." HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="152,0,0,36" />
+                <Image Source="/Images/loading_circle.png" Margin="0,38,0,0" HorizontalAlignment="Center" Width="45" Height="45" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" >
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform x:Name="loadingCircleAnimation" Angle="0"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
             </Grid>
-            <Button BorderBrush="{x:Null}" Foreground="White" Content="Suchen" Margin="0,0,10,10" HorizontalAlignment="Right" Width="108" Height="34" VerticalAlignment="Bottom">
-                <Button.Background>
-                    <ImageBrush ImageSource="/UIElements/buttons/btn_blue.png"/>
-                </Button.Background>
+            <Button Style="{StaticResource blueButton}" Content="Suchen" Margin="0,0,10,10" HorizontalAlignment="Right" Width="108" Height="34" VerticalAlignment="Bottom">
                 <Button.Triggers>
                     <EventTrigger RoutedEvent="Button.Click">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="window" Storyboard.TargetProperty="(Window.Height)" To="330" Duration="0:0:0.3" />
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="window" Storyboard.TargetProperty="(Window.Height)">
+                                    <LinearDoubleKeyFrame Value="180" KeyTime="0:0:0"/>
+                                    <LinearDoubleKeyFrame Value="400" KeyTime="0:0:0.1"/>
+                                    <LinearDoubleKeyFrame Value="330" KeyTime="0:0:0.15"/>
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimation x:Name="circleRotation" Storyboard.TargetName="loadingCircleAnimation" Storyboard.TargetProperty="(RotateTransform.Angle)" From ="0" To="359" Duration="0:0:1" RepeatBehavior="Forever" />
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
