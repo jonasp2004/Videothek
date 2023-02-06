@@ -42,7 +42,7 @@
                     </Border>
                     <TextBlock x:Name="windowTitle" Text="{Binding WindowTitle, Mode=OneWay}" TextAlignment="Center" Padding="0,4,0,0" MouseDown="windowTitle_MouseDown" />
                     <Grid Margin="6,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" >
-                        <Ellipse x:Name="ell_closeWindow" Fill="Red" Stroke="DarkRed" MouseDown="ell_closeWindow_MouseDown" MouseEnter="ell_closeWindow_MouseEnter" MouseLeave="ell_closeWindow_MouseLeave" />
+                        <Ellipse x:Name="ell_closeWindow" Style="{StaticResource redEllipse}" MouseDown="ell_closeWindow_MouseUp" />
                         <Grid.Triggers>
                             <EventTrigger RoutedEvent="Ellipse.MouseDown">
                                 <BeginStoryboard>
@@ -54,8 +54,8 @@
                             </EventTrigger>
                         </Grid.Triggers>
                     </Grid>
-                    <Button x:Name="btn_showUserFlyout" Margin="0,0,75,0" Style="{StaticResource squareButton}" BorderBrush="{x:Null}" Height="40" VerticalAlignment="Center" HorizontalAlignment="Right" Width="40" RenderTransformOrigin="0.5,0.5">
-                        <Image Source="/Images/account_circle_black_24dp.png" Height="24" Width="26"  />
+                    <Button x:Name="btn_showUserFlyout" Margin="0,0,84,0" Style="{StaticResource squareButton}" BorderBrush="{x:Null}" Height="32" VerticalAlignment="Center" HorizontalAlignment="Right" Width="31" RenderTransformOrigin="0.5,0.5">
+                        <Image Source="/Images/account_circle_black_24dp.png" Height="18" Width="17"  />
                         <Button.Triggers>
                             <EventTrigger RoutedEvent="Button.Click">
                                 <BeginStoryboard>
@@ -75,8 +75,8 @@
                             </EventTrigger>
                         </Button.Triggers>
                     </Button>
-                    <Ellipse x:Name="ell_minimizeWindow" Fill="Yellow" Stroke="Orange" Margin="28,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" MouseDown="ell_minimizeWindow_MouseDown" MouseEnter="ell_minimizeWindow_MouseEnter" MouseLeave="ell_minimizeWindow_MouseLeave" />
-                    <Ellipse x:Name="ell_maximizeWindow" Fill="Green" Stroke="DarkGreen" Margin="50,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" MouseDown="ell_maximizeWindow_MouseDown" MouseEnter="ell_maximizeWindow_MouseEnter" MouseLeave="ell_maximizeWindow_MouseLeave" />
+                    <Ellipse x:Name="ell_minimizeWindow" Style="{StaticResource yellowEllipse}" Margin="28,6,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" MouseUp="ell_minimizeWindow_MouseUp" />
+                    <Ellipse x:Name="ell_maximizeWindow" Style="{StaticResource greenEllipse}" Margin="50,6,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" MouseUp="ell_maximizeWindow_MouseUp" />
                 </Grid>
             </Border>
             <Menu Margin="0,30,116,0" Padding="5" FontFamily="{StaticResource EncodeSans}" FontSize="14" Background="{x:Null}" Height="30" VerticalAlignment="Top">
@@ -98,7 +98,7 @@
                 </MenuItem>
                 <MenuItem Header="Über">
                     <MenuItem x:Name="mi_about" Header="Über Videothek" Click="mi_about_Click" />
-                    <MenuItem Header="Nach Updates suchen" />
+                    <MenuItem x:Name="mi_update" Header="Nach Updates suchen" Click="mi_update_Click" />
                 </MenuItem>
             </Menu>
             <Frame x:Name="fr_Main" Source="/Frames/MainPage.xaml" Margin="0,60,0,0" NavigationUIVisibility="Hidden"/>

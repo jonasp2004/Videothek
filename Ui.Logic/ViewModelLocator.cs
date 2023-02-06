@@ -42,6 +42,7 @@ namespace Ui.Logic.ViewModel {
             SimpleIoc.Default.Register<AccountViewModel>();
             SimpleIoc.Default.Register<OfferingsViewModel>();
             SimpleIoc.Default.Register<MyContentsViewModel>();
+            SimpleIoc.Default.Register<UpdateViewModel>();
         }
         
         public MainViewModel Main {
@@ -95,6 +96,13 @@ namespace Ui.Logic.ViewModel {
         public MyContentsViewModel MyContent {
             get {
                 return ServiceLocator.Current.GetInstance<MyContentsViewModel>();
+            }
+        }
+
+
+        public UpdateViewModel Update {
+            get {
+                return ServiceLocator.Current.GetInstance<UpdateViewModel>();
             }
         }
 

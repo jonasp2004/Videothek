@@ -5,7 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ui.Desktop.Windows"
         mc:Ignorable="d" DataContext="{Binding Register, Source={StaticResource Locator}}"  FontFamily="{StaticResource EncodeSans}" FontSize="16" ResizeMode="NoResize" ShowInTaskbar="False"
-        Title="Über Videothek" Height="371" Width="389" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True">
+        Title="Über Videothek" Height="406" Width="389" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\UI_Elements.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Border x:Name="windowBorder" Background="#FFF1F1F1" CornerRadius="5" Margin="10" RenderTransformOrigin="0.5,0.5" >
         <Border.RenderTransform>
             <TransformGroup>
@@ -29,8 +36,7 @@
                             <EventTrigger RoutedEvent="Ellipse.MouseDown">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="0.01" From="1" Duration="0:0:0.07" />
-                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0.009" From="1" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -38,23 +44,22 @@
                     </Grid>
                 </Grid>
             </Border>
-            <TextBlock Text="Registrieren Sie sich noch heute und profitieren Sie von unserem großen Angebot an DVDs, Bücher, Videospiele u.v.m. . Dies geht schnell und einfach. Es gelten die AGBs und die Datenschutzerklärung." TextWrapping="Wrap" Margin="10,36,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBlock FontFamily="{StaticResource EncodeSansBlack}" Text="Benutzername" Margin="10,120,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Margin="10,140,10,0" VerticalAlignment="Top" />
-            <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="E-Mail" Margin="10,167,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Margin="10,187,10,0" VerticalAlignment="Top" />
-            <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="Passwort" Margin="10,214,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Margin="10,233,10,0" VerticalAlignment="Top" />
-            <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="Passwort wiederholen" Margin="10,260,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Margin="10,280,10,0" VerticalAlignment="Top" />
-            <Button BorderBrush="{x:Null}" Foreground="White" Content="Registrieren" Margin="0,0,10,10" HorizontalAlignment="Right" Width="116" Height="34" VerticalAlignment="Bottom">
-                <Button.Background>
-                    <ImageBrush ImageSource="/UIElements/buttons/btn_blue.png"/>
-                </Button.Background>
-            </Button>
-            <TextBlock x:Name="txt_agb" Text="AGBs" Cursor="Hand" Margin="0,76,9,0" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" Foreground="#FF0033FF" TextDecorations="Underline" MouseDown="txt_agb_MouseDown" />
-            <TextBlock x:Name="txt_dsgvo" Text="Datenschutzerklärung" Cursor="Hand" Margin="59,96,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="#FF0033FF" TextDecorations="Underline" MouseDown="txt_dsgvo_MouseDown" />
-            <TextBlock x:Name="txt_usernameInUse" Text="Leider bereits vergeben" Margin="0,119,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="21" />
+            <Grid Margin="0,30,0,0">
+                <TextBlock Text="Registrieren Sie sich noch heute und profitieren Sie von unserem großen Angebot an DVDs, Bücher, Videospiele u.v.m. . Dies geht schnell und einfach. Es gelten die AGBs und die Datenschutzerklärung." TextWrapping="Wrap" Margin="0,7,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                <TextBlock FontFamily="{StaticResource EncodeSansBlack}" Text="Benutzername" Margin="10,88,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <TextBox Margin="10,108,10,0" VerticalAlignment="Top" Style="{StaticResource textBox}" />
+                <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="E-Mail" Margin="10,147,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <TextBox Margin="10,0,10,0" VerticalAlignment="Center" Style="{StaticResource textBox}"/>
+                <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="Passwort" Margin="10,204,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <TextBox Style="{StaticResource textBox}" Margin="10,224,10,0" VerticalAlignment="Top" />
+                <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="Passwort wiederholen" Margin="10,257,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <TextBox Style="{StaticResource textBox}" Margin="0,277,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="348" />
+                <Button Style="{StaticResource blueButton}" Content="Registrieren" Margin="0,0,10,10" HorizontalAlignment="Right" Width="116" Height="34" VerticalAlignment="Bottom" />
+                <TextBlock x:Name="txt_agb" Text="AGBs" Cursor="Hand" Margin="0,47,9,0" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" Foreground="#FF0033FF" TextDecorations="Underline" MouseDown="txt_agb_MouseDown" />
+                <TextBlock x:Name="txt_dsgvo" Text="Datenschutzerklärung" Cursor="Hand" Margin="59,67,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="#FF0033FF" TextDecorations="Underline" MouseDown="txt_dsgvo_MouseDown" />
+                <TextBlock x:Name="txt_usernameInUse" Text="Leider bereits vergeben" Margin="0,88,9,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Foreground="Red" />
+            </Grid>
+
         </Grid>
         <Border.Triggers>
             <EventTrigger RoutedEvent="Window.Loaded">

@@ -29,10 +29,6 @@ namespace Ui.Desktop.Windows {
             this.Close();
         }
 
-        private void ell_closeWindow_MouseEnter(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.DarkRed; }
-
-        private void ell_closeWindow_MouseLeave(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.Red; }
-
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e) {
             Register register = new Register();
             register.ShowDialog();
@@ -40,6 +36,11 @@ namespace Ui.Desktop.Windows {
 
         private async void Button_Click(object sender, RoutedEventArgs e) {
             // Login kommt hier (oder im ViewModel)
+            await Timer(200);
+            this.Close();
+        }
+
+        private async void CheckBox_Unchecked(object sender, RoutedEventArgs e) {
             await Timer(200);
             this.Close();
         }

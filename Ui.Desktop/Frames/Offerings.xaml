@@ -18,6 +18,6 @@
             <ComboBoxItem Content="Musik-CD" />
             <ComboBoxItem Content="Blu-Ray" />
         </ComboBox>
-        <DataGrid x:Name="grd_showContents" ItemsSource="{Binding media}" Margin="10,47,10,0" SelectionChanged="grd_showContents_SelectionChanged" />
+        <DataGrid x:Name="grd_showContents" ItemsSource="{Binding media}" IsReadOnly="True" Margin="10,47,10,0" SelectionChanged="grd_showContents_SelectionChanged" />
     </Grid>
 </Page>

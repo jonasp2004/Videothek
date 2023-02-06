@@ -19,6 +19,8 @@ namespace Ui.Logic.ViewModel {
                 WindowTitle = "Mein Account";
             }
 
+            WaitGridVisibility = Visibility.Collapsed;
+
             // Bereite Beispieldaten auf
 
             UserName = "@benutzerName2023";
@@ -36,15 +38,11 @@ namespace Ui.Logic.ViewModel {
         }
 
         private ICommand _PrepareSendData;
-        public ICommand PrepareSendData
-        {
+        public ICommand PrepareSendData {
             get {
                 if (_PrepareSendData == null) {
                     _PrepareSendData = new RelayCommand(() => {
-                        blurActivate = true;
                         SendData();
-                        MessageBox.Show(Vorname + Strasse);
-                        blurActivate = false;
                     });
                 }
                 return _PrepareSendData;
@@ -52,12 +50,16 @@ namespace Ui.Logic.ViewModel {
         }
 
         private async void SendData() {
+            WaitGridVisibility = Visibility.Visible;
+            blurActivate = true;
             await Send();
+            blurActivate = false;
+            WaitGridVisibility = Visibility.Collapsed;
         }
 
         private async System.Threading.Tasks.Task Send() {
             await System.Threading.Tasks.Task.Run(() => {
-                Thread.Sleep(2000);
+                Thread.Sleep(4000);
             });
         }
 
@@ -112,5 +114,8 @@ namespace Ui.Logic.ViewModel {
 
         private string _Password2 { get; set; }
         public string Password2 { get { return _Password2; } set { _Password2 = value; RaisePropertyChanged(); } }
+
+        private Visibility _WaitGridVisibility { get; set; }
+        public Visibility WaitGridVisibility { get { return _WaitGridVisibility; } set { _WaitGridVisibility = value; RaisePropertyChanged(); } }
     }
 }

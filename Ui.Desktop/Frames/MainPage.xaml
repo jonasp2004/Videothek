@@ -13,6 +13,6 @@
         <TextBlock Text="Melde dich erst an, bevor du anfangen kannst!" Margin="20,37,0,0" Height="23" VerticalAlignment="Top" FontSize="18" />
         <TextBlock Text="Oder schaue dir eine Auswahl aus unserem Angebot an." Margin="20,60,0,0" VerticalAlignment="Top" FontSize="18" TextWrapping="Wrap" />
         <TextBlock Text="Melde dich an, indem du auf der Menüleiste auf den Punkt 'Anmeldung' und dann auf 'Anmelden' klickst." Margin="0,0,10,10" VerticalAlignment="Bottom" FontSize="18" TextWrapping="Wrap" HorizontalAlignment="Right" Width="294" />
-        <DataGrid ItemsSource="{Binding media}"  Margin="10,87,0,10" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" />
+        <DataGrid ItemsSource="{Binding media}" IsReadOnly="True" Margin="10,87,0,10" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" />
     </Grid>
 </Page>

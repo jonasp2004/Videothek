@@ -28,10 +28,6 @@ namespace Ui.Desktop.Windows {
             this.Close();
         }
 
-        private void ell_closeWindow_MouseEnter(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.DarkRed; }
-
-        private void ell_closeWindow_MouseLeave(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.Red; }
-
 
         private async void btn_logOut_Click(object sender, RoutedEventArgs e) {
             // Abmelden

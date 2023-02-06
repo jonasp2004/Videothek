@@ -6,6 +6,13 @@
         xmlns:local="clr-namespace:Ui.Desktop.Windows"
         mc:Ignorable="d" DataContext="{Binding Account, Source={StaticResource Locator}}"  FontFamily="{StaticResource EncodeSans}" FontSize="16" ResizeMode="NoResize" ShowInTaskbar="False"
         Title="Über Videothek" Height="426" Width="727" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\UI_Elements.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Border x:Name="windowBorder" Background="#FFF1F1F1" CornerRadius="5" Margin="10" RenderTransformOrigin="0.5,0.5" >
         <Border.RenderTransform>
             <TransformGroup>
@@ -24,7 +31,7 @@
                 <Grid>
                     <TextBlock x:Name="windowTitle" Text="{Binding WindowTitle}" TextAlignment="Center" Padding="0,4,0,0" MouseDown="windowTitle_MouseDown" />
                     <Grid Margin="6,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17">
-                        <Ellipse x:Name="ell_closeWindow" Fill="Red" Stroke="DarkRed" MouseDown="ell_closeWindow_MouseDown" MouseEnter="ell_closeWindow_MouseEnter" MouseLeave="ell_closeWindow_MouseLeave" />
+                        <Ellipse x:Name="ell_closeWindow" Style="{StaticResource redEllipse}" MouseDown="ell_closeWindow_MouseDown" />
                         <Grid.Triggers>
                             <EventTrigger RoutedEvent="Ellipse.MouseDown">
                                 <BeginStoryboard>
@@ -55,46 +62,34 @@
                     <TextBlock Text="{Binding FullName}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Margin="0,113,0,0" />
                     <TextBlock Text="{Binding UserName}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,143,0,0" />
                     <TextBlock Text="{Binding Email}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,163,0,0" MaxWidth="180" FontSize="12" />
-                    <Button BorderBrush="{x:Null}" Command="{Binding PrepareSendData}" Foreground="White" Margin="0,188,0,151" Content="Änderungen übernehmen" FontSize="12" HorizontalAlignment="Center" Width="136" >
-                        <Button.Background>
-                            <ImageBrush ImageSource="/UIElements/buttons/btn_blue.png"/>
-                        </Button.Background>
-                    </Button>
-                    <Button x:Name="btn_requestMyData" BorderBrush="{x:Null}" Margin="0,300,0,0" Content="Meine Daten anfordern" FontSize="12" HorizontalAlignment="Center" Width="124" Height="32" VerticalAlignment="Top" >
-                        <Button.Background>
-                            <ImageBrush ImageSource="/UIElements/buttons/btn_base.png"/>
-                        </Button.Background>
-                    </Button>
-                    <Button x:Name="btn_removeAccount_Copy" BorderBrush="{x:Null}" Margin="0,337,0,0" Content="Account löschen" FontSize="12" HorizontalAlignment="Center" Width="100" Height="29" VerticalAlignment="Top" >
-                        <Button.Background>
-                            <ImageBrush ImageSource="/UIElements/buttons/btn_base.png"/>
-                        </Button.Background>
-                    </Button>
+                    <Button Style="{StaticResource blueButton}" Command="{Binding PrepareSendData}" Margin="0,188,0,0" Content="Änderungen übernehmen" FontSize="12" HorizontalAlignment="Center" Width="136" Height="28" VerticalAlignment="Top" />
+                    <Button x:Name="btn_requestMyData" Style="{StaticResource normalButton}" Margin="0,0,0,41" Content="Meine Daten anfordern" FontSize="12" HorizontalAlignment="Center" Width="124" Height="26" VerticalAlignment="Bottom" />
+                    <Button x:Name="btn_removeAccount_Copy" Style="{StaticResource normalButton}" Margin="0,0,0,10" Content="Account löschen" FontSize="12" HorizontalAlignment="Center" Width="100" Height="26" VerticalAlignment="Bottom" />
                 </Grid>
                 <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden">
                     <Grid>
                         <TextBlock Text="Account-Informationen" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" />
                         <TextBlock Text="E-Mail-Adresse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,45,0,0" />
-                        <TextBox Text="{Binding Email}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,65,0,0" Width="231" Height="24" />
+                        <TextBox Text="{Binding Email}" Style="{StaticResource textBox}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,65,0,0" Width="231" />
                         <TextBlock Text="Nutzername" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,45,171,0" />
-                        <TextBox Text="{Binding UserName}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,65,10,0" Width="238" Height="24" />
+                        <TextBox Text="{Binding UserName}" Style="{StaticResource textBox}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,65,10,0" Width="238" />
                         <TextBlock Text="Passwort ändern" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,97,0,0" />
-                        <TextBox Text="{Binding Password}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,117,0,0" Width="231" Height="24" />
+                        <TextBox Text="{Binding Password}" Style="{StaticResource textBox}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,117,0,0" Width="231"/>
                         <TextBlock Text="Passwort wiederholen" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,97,108,0" />
-                        <TextBox Text="{Binding Password2}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,117,16,0" Width="232" Height="24" />
+                        <TextBox Text="{Binding Password2}" Style="{StaticResource textBox}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,117,16,0" Width="232" />
                         <TextBlock Text="Persönliche Informationen" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,150,0,0" />
                         <TextBlock Text="Vorname" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,185,0,0" />
-                        <TextBox Text="{Binding Vorname}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,205,0,0" Width="231" Height="24" />
+                        <TextBox Text="{Binding Vorname}" Style="{StaticResource textBox}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,205,0,0" Width="231" />
                         <TextBlock Text="Nachname" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,185,182,0" />
-                        <TextBox Text="{Binding Nachname}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,205,17,0" Width="231" Height="24" />
+                        <TextBox Text="{Binding Nachname}" Style="{StaticResource textBox}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,205,17,0" Width="231"/>
                         <TextBlock Text="Straße" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,234,0,0" />
-                        <TextBox Text="{Binding Strasse}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,254,0,0" Width="230" Height="24" />
+                        <TextBox Text="{Binding Strasse}" Style="{StaticResource textBox}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,254,0,0" Width="230"/>
                         <TextBlock Text="Hausnummer" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,234,164,0" />
-                        <TextBox Text="{Binding Hausnummer}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,254,16,0" Width="232" Height="24" />
+                        <TextBox Text="{Binding Hausnummer}" Style="{StaticResource textBox}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,254,16,0" Width="232"/>
                         <TextBlock Text="PLZ" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11,287,0,0" />
-                        <TextBox Text="{Binding ZIP}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11,307,0,0" Width="230" Height="24" />
+                        <TextBox Text="{Binding ZIP}" Style="{StaticResource textBox}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11,307,0,0" Width="230"/>
                         <TextBlock Text="Ort" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,287,227,0" />
-                        <TextBox Text="{Binding Location}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,307,16,0" Width="232" Height="24" />
+                        <TextBox Text="{Binding Location}" Style="{StaticResource textBox}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,307,16,0" Width="232" />
 
                     </Grid>
                 </ScrollViewer>
@@ -121,6 +116,27 @@
                     </EventTrigger>
                 </CheckBox.Triggers>
             </CheckBox>
+            <Border CornerRadius="5" Background="#7F000000" Visibility="{Binding WaitGridVisibility}">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ProgressBar IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Top" Height="10" Margin="0,-10,0,0" Width="352" Background="{x:Null}" BorderBrush="{x:Null}" >
+                        <ProgressBar.Foreground>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <LinearGradientBrush.RelativeTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                        <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                        <RotateTransform Angle="89" CenterX="0.5" CenterY="0.5"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </LinearGradientBrush.RelativeTransform>
+                                <GradientStop Color="White" Offset="0"/>
+                                <GradientStop Color="Transparent" Offset="1"/>
+                            </LinearGradientBrush>
+                        </ProgressBar.Foreground>
+                    </ProgressBar>
+                    <TextBlock Text="Laden..." Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+            </Border>
         </Grid>
         <Border.Triggers>
             <EventTrigger RoutedEvent="Window.Loaded">

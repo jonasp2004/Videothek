@@ -30,21 +30,13 @@ namespace Ui.Desktop {
         }
 
         // Roter Button-Verhalten
-        private async void ell_closeWindow_MouseDown(object sender, MouseButtonEventArgs e) { await Timer(150); Environment.Exit(0); }
-
-        private void ell_closeWindow_MouseEnter(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.DarkRed; }
-
-        private void ell_closeWindow_MouseLeave(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.Red; }
+        private async void ell_closeWindow_MouseUp(object sender, MouseButtonEventArgs e) { await Timer(150); Environment.Exit(0); }
 
         // Gelber Button-Verhalten
-        private void ell_minimizeWindow_MouseDown(object sender, MouseButtonEventArgs e) { this.WindowState = WindowState.Minimized; }
-
-        private void ell_minimizeWindow_MouseEnter(object sender, MouseEventArgs e) { ell_minimizeWindow.Fill = Brushes.Orange; }
-
-        private void ell_minimizeWindow_MouseLeave(object sender, MouseEventArgs e) { ell_minimizeWindow.Fill = Brushes.Yellow; }
+        private void ell_minimizeWindow_MouseUp(object sender, MouseButtonEventArgs e) { this.WindowState = WindowState.Minimized; }
 
         // Grüner Button-Verhalten
-        private void ell_maximizeWindow_MouseDown(object sender, MouseButtonEventArgs e) {
+        private void ell_maximizeWindow_MouseUp(object sender, MouseButtonEventArgs e) {
             try {
                 if(this.WindowState == WindowState.Normal) {
                     this.WindowState = WindowState.Maximized;
@@ -55,10 +47,6 @@ namespace Ui.Desktop {
                 }
             } catch { }
         }
-
-        private void ell_maximizeWindow_MouseEnter(object sender, MouseEventArgs e) { ell_maximizeWindow.Fill = Brushes.DarkGreen; }
-
-        private void ell_maximizeWindow_MouseLeave(object sender, MouseEventArgs e) { ell_maximizeWindow.Fill = Brushes.Green; }
 
         // Fenster öffnen
         private void mi_about_Click(object sender, RoutedEventArgs e) {
@@ -138,6 +126,11 @@ namespace Ui.Desktop {
                 grd_loggedOut.Visibility = Visibility.Collapsed;
                 loggedIn = true;
             }
+        }
+
+        private void mi_update_Click(object sender, RoutedEventArgs e) {
+            Updater update = new Updater();
+            update.Show();
         }
     }
 }

@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
@@ -91,6 +94,9 @@
     <Compile Include="Windows\ContentDetail.xaml.cs">
       <DependentUpon>ContentDetail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Errormsg.xaml.cs">
+      <DependentUpon>Errormsg.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -105,6 +111,9 @@
     </Compile>
     <Compile Include="Windows\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Updater.xaml.cs">
+      <DependentUpon>Updater.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\UserManagement.xaml.cs">
       <DependentUpon>UserManagement.xaml</DependentUpon>
@@ -153,6 +162,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\Errormsg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -170,6 +183,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Search.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Updater.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -197,6 +214,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Fonts\EncodeSans.ttf" />
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -243,15 +261,6 @@
     <Resource Include="Images\refresh_18dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\round-add-circle_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\delete_outline_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\edit_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\account_circle_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
@@ -285,6 +294,24 @@
   <ItemGroup>
     <Resource Include="UIElements\buttons\small_sqare-buttonHover.png" />
     <Resource Include="UIElements\buttons\small_sqare-buttonPress.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\stop_90px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\muell_22px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\add_22px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edit_22px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\check_15px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\einstellungen_45px.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

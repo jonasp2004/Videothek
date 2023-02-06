@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ui.Desktop.Windows"
         mc:Ignorable="d" DataContext="{Binding Login, Source={StaticResource Locator}}"  FontFamily="{StaticResource EncodeSans}" FontSize="16" ResizeMode="NoResize" ShowInTaskbar="False"
-        Title="Über Videothek" Height="315" Width="389" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True">
+        Title="Über Videothek" Height="331" Width="389" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -31,13 +31,12 @@
                 <Grid>
                     <TextBlock x:Name="windowTitle" Text="{Binding WindowTitle}" TextAlignment="Center" Padding="0,4,0,0" MouseDown="windowTitle_MouseDown" />
                     <Grid Margin="6,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17">
-                        <Ellipse x:Name="ell_closeWindow" Fill="Red" Stroke="DarkRed" MouseDown="ell_closeWindow_MouseDown" MouseEnter="ell_closeWindow_MouseEnter" MouseLeave="ell_closeWindow_MouseLeave" />
+                        <Ellipse x:Name="ell_closeWindow" Style="{StaticResource redEllipse}" MouseDown="ell_closeWindow_MouseDown" />
                         <Grid.Triggers>
                             <EventTrigger RoutedEvent="Ellipse.MouseDown">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="0.01" From="1" Duration="0:0:0.07" />
-                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0.009" From="1" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -45,23 +44,63 @@
                     </Grid>
                 </Grid>
             </Border>
-            <Image Source="/Images/user.png" Margin="0,40,0,169" HorizontalAlignment="Center" Width="85" />
-            <TextBlock FontFamily="{StaticResource EncodeSansBlack}" Text="Benutzername" Margin="10,132,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Margin="10,157,10,0" VerticalAlignment="Top" />
-            <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="Passwort" Margin="10,184,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Margin="10,204,10,0" VerticalAlignment="Top" />
-            <TextBlock Text="Du hast noch kein Benutzerkonto? Hier registrieren!" Cursor="Hand" Margin="0,0,10,10" TextDecorations="Underline" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FF0084FF" MouseDown="TextBlock_MouseDown" />
-            <Button BorderBrush="{x:Null}" Content="Anmelden" Margin="0,0,10,30" HorizontalAlignment="Right" Width="116" Height="34" VerticalAlignment="Bottom" Click="Button_Click" Style="{StaticResource blueButton}">
-                <Button.Triggers>
-                        <EventTrigger RoutedEvent="Button.Click">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.1" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Button.Triggers>
-            </Button>
+            <Grid Margin="0,30,0,0" RenderTransformOrigin="0.5,0.5">
+                <Grid.Effect>
+                    <BlurEffect x:Name="blr_windowBlur" Radius="0" />
+                </Grid.Effect>
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="gridTransform" />
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Image Source="/Images/user.png" Margin="0,20,0,0" HorizontalAlignment="Center" Width="85" Height="85" VerticalAlignment="Top" />
+                <TextBlock FontFamily="{StaticResource EncodeSansBlack}" Text="Benutzername" Margin="10,99,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <TextBox Margin="10,119,10,0" VerticalAlignment="Top" Style="{StaticResource textBox}" />
+                <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="Passwort" Margin="10,158,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <TextBox Margin="10,178,10,0" VerticalAlignment="Top" Style="{StaticResource textBox}" />
+                <TextBlock Text="Du hast noch kein Benutzerkonto? Hier registrieren!" Cursor="Hand" Margin="0,0,10,10" TextDecorations="Underline" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FF0084FF" MouseDown="TextBlock_MouseDown" />
+                <Button Content="Anmelden" Command="{Binding PrepareSendData}" Margin="0,0,10,30" HorizontalAlignment="Right" Width="116" Height="34" VerticalAlignment="Bottom" Style="{StaticResource blueButton}" />
+            </Grid>
+            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding blurActivate}" VerticalAlignment="Top" Content="Blur aktivieren" Margin="0,-33,0,0" Unchecked="CheckBox_Unchecked">
+                <CheckBox.Triggers>
+                    <EventTrigger RoutedEvent="CheckBox.Checked">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="1" To="0.95" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="1" To="0.95" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" To="25" From="0" Duration="0:0:0.2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="CheckBox.Unchecked">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1" From="0.95" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="1" From="0.95" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" From="25" To="0" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </CheckBox.Triggers>
+            </CheckBox>
+            <Border Background="#7F000000" CornerRadius="5" Visibility="{Binding WaitGridVisibility}">
+                <TextBlock Text="Anmelden..." HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+            </Border>
+            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding blurActivate}" VerticalAlignment="Top" Content="Schließen-Animation" Margin="123,-33,0,0" Unchecked="CheckBox_Unchecked">
+                <CheckBox.Triggers>
+                    <EventTrigger RoutedEvent="CheckBox.Unchecked">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1" From="0.95" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="1" From="0.95" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" From="25" To="0" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </CheckBox.Triggers>
+            </CheckBox>
         </Grid>
         <Border.Triggers>
             <EventTrigger RoutedEvent="Window.Loaded">

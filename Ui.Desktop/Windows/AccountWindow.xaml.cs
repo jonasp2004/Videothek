@@ -26,9 +26,5 @@ namespace Ui.Desktop.Windows {
             await Timer(200);
             this.Close();
         }
-
-        private void ell_closeWindow_MouseEnter(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.DarkRed; }
-
-        private void ell_closeWindow_MouseLeave(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.Red; }
     }
 }
