@@ -9,9 +9,9 @@ namespace Ui.Desktop.Frames {
             InitializeComponent();
         }
 
-        private void btn_loginAsCustomer_Click(object sender, RoutedEventArgs e) {
+        private void btn_login_Click(object sender, RoutedEventArgs e) {
             Login login = new Login();
-            login.Show();
+            login.ShowDialog();
         }
     }
 }

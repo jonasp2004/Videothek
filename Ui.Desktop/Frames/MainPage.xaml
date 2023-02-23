@@ -9,26 +9,10 @@
       Title="MainPage" FontFamily="{StaticResource EncodeSans}" FontSize="14">
 
     <Grid>
-        <TextBlock Text="Guten Tag!" FontFamily="{StaticResource EncodeSansBlack}" Margin="10,10,0,0" Height="27" VerticalAlignment="Top" FontSize="20" />
-        <TextBlock Text="Melde dich erst an, bevor du anfangen kannst!" Margin="10,37,0,0" Height="23" VerticalAlignment="Top" FontSize="18" />
-        <TextBlock Text="Oder schaue dir eine Auswahl aus unserem Angebot an." Margin="10,60,0,0" Height="23" VerticalAlignment="Top" FontSize="18" />
-        <Button x:Name="btn_loginAsCustomer" BorderBrush="{x:Null}" Foreground="White" Margin="0,10,10,0" Content="Anmelden" HorizontalAlignment="Right" Width="126" Height="37" VerticalAlignment="Top" Command="{Binding ShowLogin}" Click="btn_loginAsCustomer_Click">
-            <Button.Background>
-                <ImageBrush ImageSource="/UIElements/buttons/btn_blue.png"/>
-            </Button.Background>
-        </Button>
-        <Button x:Name="btn_loinAsEmployee" BorderBrush="{x:Null}" Margin="0,52,10,0" Content="Mitarbeiter-Login" HorizontalAlignment="Right" Width="126" Height="37" VerticalAlignment="Top" Command="{Binding ShowLoginEmp}">
-            <Button.Background>
-                <ImageBrush ImageSource="/UIElements/buttons/btn_base.png"/>
-            </Button.Background>
-        </Button>
-        <DataGrid ItemsSource="{Binding media}"  Margin="10,88,299,10" Background="{x:Null}" BorderBrush="{x:Null}" />
-        <StackPanel Orientation="Vertical" Margin="0,94,10,10" HorizontalAlignment="Right" Width="284">
-            <TextBlock Text="Titel" FontFamily="{StaticResource EncodeSansBlack}" Padding="0,0,0,5" TextWrapping="Wrap" />
-            <TextBlock Text="Kategorie" Padding="0,0,0,5" />
-            <TextBlock Text="Verfügbare Menge" Padding="0,0,0,5" />
-            <TextBlock Text="Preis" Padding="0,0,0,5" />
-            <TextBlock Text="Art.-Nummer" Padding="0,0,0,5" />
-        </StackPanel>
+        <TextBlock Text="Guten Tag!" FontFamily="{StaticResource EncodeSansBlack}" Margin="20,10,0,0" Height="27" VerticalAlignment="Top" FontSize="20"/>
+        <TextBlock Text="Melde dich erst an, bevor du anfangen kannst!" Margin="20,37,0,0" Height="23" VerticalAlignment="Top" FontSize="18" />
+        <TextBlock Text="Oder schaue dir eine Auswahl aus unserem Angebot an." Margin="20,60,0,0" VerticalAlignment="Top" FontSize="18" TextWrapping="Wrap" />
+        <TextBlock Text="Melde dich an, indem du auf der Menüleiste auf den Punkt 'Anmeldung' und dann auf 'Anmelden' klickst." Margin="0,0,10,10" VerticalAlignment="Bottom" FontSize="18" TextWrapping="Wrap" HorizontalAlignment="Right" Width="294" />
+        <DataGrid ItemsSource="{Binding media}" IsReadOnly="True" Margin="10,87,0,10" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" />
     </Grid>
 </Page>

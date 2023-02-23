@@ -1,0 +1,154 @@
+﻿<Window x:Class="Ui.Desktop.Windows.AccountWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Ui.Desktop.Windows"
+        mc:Ignorable="d" DataContext="{Binding Account, Source={StaticResource Locator}}"  FontFamily="{StaticResource EncodeSans}" FontSize="16" ResizeMode="NoResize" ShowInTaskbar="False"
+        Title="Über Videothek" Height="426" Width="727" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\UI_Elements.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Border x:Name="windowBorder" Background="#FFF1F1F1" CornerRadius="5" Margin="10" RenderTransformOrigin="0.5,0.5" >
+        <Border.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform x:Name="windowScale" />
+            </TransformGroup>
+        </Border.RenderTransform>
+        <Border.Effect>
+            <DropShadowEffect Direction="270" BlurRadius="10" ShadowDepth="1" />
+        </Border.Effect>
+        <Grid>
+            <!-- Fenster-Titelleiste -->
+            <Border Height="30" VerticalAlignment="Top" CornerRadius="5,5,0,0">
+                <Border.Background>
+                    <ImageBrush ImageSource="/UIElements/window_titlebar.png"/>
+                </Border.Background>
+                <Grid>
+                    <TextBlock x:Name="windowTitle" Text="{Binding WindowTitle}" TextAlignment="Center" Padding="0,4,0,0" MouseDown="windowTitle_MouseDown" />
+                    <Grid Margin="6,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17">
+                        <Ellipse x:Name="ell_closeWindow" Style="{StaticResource redEllipse}" MouseDown="ell_closeWindow_MouseDown" />
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="Ellipse.MouseDown">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0.009" From="1" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Grid.Triggers>
+                    </Grid>
+                </Grid>
+            </Border>
+            <Grid Margin="0,30,0,0" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="gridTransform"/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Grid.Effect>
+                    <BlurEffect x:Name="blr_windowBlur" Radius="0" />
+                </Grid.Effect>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="523*"/>
+                </Grid.ColumnDefinitions>
+                <Border Background="#FFB1AFB1" CornerRadius="0,0,0,5" >
+                    <Grid>
+                        <Image Source="/Images/user.png" HorizontalAlignment="Center" VerticalAlignment="Top" Height="88" Width="90" Margin="0,20,0,0" />
+                        <TextBlock Text="{Binding FullName}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Margin="0,113,0,0" />
+                        <TextBlock Text="{Binding UserName}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,143,0,0" />
+                        <TextBlock Text="{Binding Email}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,163,0,0" MaxWidth="180" FontSize="12" />
+                        <Button Style="{StaticResource blueButton}" Command="{Binding PrepareSendData}" Margin="0,188,0,0" Content="Änderungen übernehmen" FontSize="12" HorizontalAlignment="Center" Width="136" Height="28" VerticalAlignment="Top" />
+                        <Button x:Name="btn_requestMyData" Style="{StaticResource normalButton}" Margin="0,0,0,41" Content="Meine Daten anfordern" FontSize="12" HorizontalAlignment="Center" Width="124" Height="26" VerticalAlignment="Bottom" />
+                        <Button x:Name="btn_removeAccount_Copy" Style="{StaticResource normalButton}" Margin="0,0,0,10" Content="Account löschen" FontSize="12" HorizontalAlignment="Center" Width="100" Height="26" VerticalAlignment="Bottom" />
+                    </Grid>
+                </Border>
+                <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden">
+                    <Grid>
+                        <TextBlock Text="Account-Informationen" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" />
+                        <TextBlock Text="E-Mail-Adresse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,45,0,0" />
+                        <TextBox Text="{Binding Email}" Style="{StaticResource textBox}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,65,0,0" Width="231" />
+                        <TextBlock Text="Nutzername" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,45,171,0" />
+                        <TextBox Text="{Binding UserName}" Style="{StaticResource textBox}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,65,10,0" Width="238" />
+                        <TextBlock Text="Passwort ändern" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,97,0,0" />
+                        <TextBox Text="{Binding Password}" Style="{StaticResource textBox}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,117,0,0" Width="231"/>
+                        <TextBlock Text="Passwort wiederholen" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,97,108,0" />
+                        <TextBox Text="{Binding Password2}" Style="{StaticResource textBox}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,117,16,0" Width="232" />
+                        <TextBlock Text="Persönliche Informationen" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,150,0,0" />
+                        <TextBlock Text="Vorname" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,185,0,0" />
+                        <TextBox Text="{Binding Vorname}" Style="{StaticResource textBox}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,205,0,0" Width="231" />
+                        <TextBlock Text="Nachname" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,185,182,0" />
+                        <TextBox Text="{Binding Nachname}" Style="{StaticResource textBox}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,205,17,0" Width="231"/>
+                        <TextBlock Text="Straße" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,234,0,0" />
+                        <TextBox Text="{Binding Strasse}" Style="{StaticResource textBox}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,254,0,0" Width="230"/>
+                        <TextBlock Text="Hausnummer" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,234,164,0" />
+                        <TextBox Text="{Binding Hausnummer}" Style="{StaticResource textBox}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,254,16,0" Width="232"/>
+                        <TextBlock Text="PLZ" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11,287,0,0" />
+                        <TextBox Text="{Binding ZIP}" Style="{StaticResource textBox}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11,307,0,0" Width="230"/>
+                        <TextBlock Text="Ort" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,287,227,0" />
+                        <TextBox Text="{Binding Location}" Style="{StaticResource textBox}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,307,16,0" Width="232" />
+
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding blurActivate}" VerticalAlignment="Top" Content="Blur aktivieren" Margin="0,-33,0,0">
+                <CheckBox.Triggers>
+                    <EventTrigger RoutedEvent="CheckBox.Checked">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="1" To="0.95" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="1" To="0.98" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" To="25" From="0" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="CheckBox.Unchecked">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1" From="0.95" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="1" From="0.98" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" From="25" To="0" Duration="0:0:0.05" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </CheckBox.Triggers>
+            </CheckBox>
+            <Border CornerRadius="5" Background="#7F000000" Visibility="{Binding WaitGridVisibility}">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ProgressBar IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Top" Height="10" Margin="0,-10,0,0" Width="352" Background="{x:Null}" BorderBrush="{x:Null}" >
+                        <ProgressBar.Foreground>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <LinearGradientBrush.RelativeTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                        <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                        <RotateTransform Angle="89" CenterX="0.5" CenterY="0.5"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </LinearGradientBrush.RelativeTransform>
+                                <GradientStop Color="White" Offset="0"/>
+                                <GradientStop Color="Transparent" Offset="1"/>
+                            </LinearGradientBrush>
+                        </ProgressBar.Foreground>
+                    </ProgressBar>
+                    <TextBlock Text="Laden..." Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+            </Border>
+        </Grid>
+        <Border.Triggers>
+            <EventTrigger RoutedEvent="Window.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="0.9" To="1" Duration="0:0:0.07" />
+                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="0.1" To="1" Duration="0:0:0.1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Border.Triggers>
+    </Border>
+</Window>

@@ -37,6 +37,12 @@ namespace Ui.Logic.ViewModel {
             SimpleIoc.Default.Register<SearchViewModel>();
             SimpleIoc.Default.Register<UsermanagerViewModel>();
             SimpleIoc.Default.Register<MediamanagementViewModel>();
+            SimpleIoc.Default.Register<LoginViewModel>();
+            SimpleIoc.Default.Register<RegisterViewModel>();
+            SimpleIoc.Default.Register<AccountViewModel>();
+            SimpleIoc.Default.Register<OfferingsViewModel>();
+            SimpleIoc.Default.Register<MyContentsViewModel>();
+            SimpleIoc.Default.Register<UpdateViewModel>();
         }
         
         public MainViewModel Main {
@@ -69,12 +75,36 @@ namespace Ui.Logic.ViewModel {
             }
         }
 
+        public RegisterViewModel Register {
+            get {
+                return ServiceLocator.Current.GetInstance<RegisterViewModel>();
+            }
+        }
 
-        //public LoginViewModel Login {
-        //    get {
-        //        return ServiceLocator.Current.GetInstance<LoginViewModel>();
-        //    }
-        //}
+        public AccountViewModel Account {
+            get {
+                return ServiceLocator.Current.GetInstance<AccountViewModel>();
+            }
+        }
+
+        public OfferingsViewModel Offers {
+            get {
+                return ServiceLocator.Current.GetInstance<OfferingsViewModel>();
+            }
+        }
+
+        public MyContentsViewModel MyContent {
+            get {
+                return ServiceLocator.Current.GetInstance<MyContentsViewModel>();
+            }
+        }
+
+
+        public UpdateViewModel Update {
+            get {
+                return ServiceLocator.Current.GetInstance<UpdateViewModel>();
+            }
+        }
 
         public static void Cleanup() {
             // TODO Clear the ViewModels

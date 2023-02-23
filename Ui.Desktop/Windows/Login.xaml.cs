@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Ui.Logic.ViewModel;
 
 namespace Ui.Desktop.Windows {
 
     public partial class Login : Window
     {
-        public Login()
-        {
+        public Login() {
             InitializeComponent();
         }
 
@@ -39,8 +31,24 @@ namespace Ui.Desktop.Windows {
             this.Close();
         }
 
-        private void ell_closeWindow_MouseEnter(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.DarkRed; }
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e) {
+            Register register = new Register();
+            register.ShowDialog();
+        }
 
-        private void ell_closeWindow_MouseLeave(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.Red; }
+        private async void Button_Click(object sender, RoutedEventArgs e) {
+            // Login kommt hier (oder im ViewModel)
+            await Timer(200);
+            this.Close();
+        }
+
+        private async void CheckBox_Unchecked(object sender, RoutedEventArgs e) {
+            await Timer(200);
+            this.Close();
+        }
+
+        private void txt_password_PasswordChanged(object sender, RoutedEventArgs e) {
+            (this.DataContext as LoginViewModel).Password = ((PasswordBox)sender).Password;
+        }
     }
 }

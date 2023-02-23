@@ -4,9 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ui.Desktop.Windows"
+        xmlns:xrpb="http://XamlRadialProgressBar/DotNet"
         mc:Ignorable="d"
         DataContext="{Binding search, Source={StaticResource Locator}}" FontSize="16" ResizeMode="NoResize" ShowInTaskbar="False" FontFamily="{StaticResource EncodeSans}"
         Title="Über Videothek" Height="180" Width="389" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\UI_Elements.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Border x:Name="windowBorder" Background="#FFF1F1F1" CornerRadius="5" Margin="10" RenderTransformOrigin="0.5,0.5">
         <Border.RenderTransform>
             <TransformGroup>
@@ -30,8 +38,7 @@
                             <EventTrigger RoutedEvent="Ellipse.MouseDown">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="0.01" From="1" Duration="0:0:0.07" />
-                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0.009" From="1" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -40,20 +47,29 @@
                 </Grid>
             </Border>
             <TextBlock FontFamily="{StaticResource EncodeSansBlack}" Text="Suchen" Margin="10,35,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Margin="10,85,10,0" VerticalAlignment="Top" />
+            <TextBox Margin="10,85,10,0" VerticalAlignment="Top" Background="{x:Null}" />
             <ListBox Margin="10,113,10,57" Background="White" BorderBrush="{x:Null}" />
             <Grid Background="#4C000000" Margin="10,113,10,57" >
-                <TextBlock Text="Laden..." HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Text="Laden..." HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,88,0,0" />
+                <xrpb:RadialProgressBar Margin="0,33,0,0" Height="50" VerticalAlignment="Top" Width="50" HorizontalAlignment="Center" IsIndeterminate="True" Background="{x:Null}" >
+                    <xrpb:RadialProgressBar.Foreground>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF1300FF" Offset="1"/>
+                            <GradientStop Color="#FF5B009C" Offset="0"/>
+                        </LinearGradientBrush>
+                    </xrpb:RadialProgressBar.Foreground>
+                </xrpb:RadialProgressBar>
             </Grid>
-            <Button BorderBrush="{x:Null}" Foreground="White" Content="Suchen" Margin="0,0,10,10" HorizontalAlignment="Right" Width="108" Height="34" VerticalAlignment="Bottom">
-                <Button.Background>
-                    <ImageBrush ImageSource="/UIElements/buttons/btn_blue.png"/>
-                </Button.Background>
+            <Button Style="{StaticResource blueButton}" Content="Suchen" Margin="0,0,10,10" HorizontalAlignment="Right" Width="108" Height="34" VerticalAlignment="Bottom">
                 <Button.Triggers>
                     <EventTrigger RoutedEvent="Button.Click">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="window" Storyboard.TargetProperty="(Window.Height)" To="330" Duration="0:0:0.3" />
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="window" Storyboard.TargetProperty="(Window.Height)">
+                                    <LinearDoubleKeyFrame Value="180" KeyTime="0:0:0"/>
+                                    <LinearDoubleKeyFrame Value="400" KeyTime="0:0:0.1"/>
+                                    <LinearDoubleKeyFrame Value="330" KeyTime="0:0:0.15"/>
+                                </DoubleAnimationUsingKeyFrames>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>

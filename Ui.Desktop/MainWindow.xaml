@@ -6,7 +6,14 @@
         xmlns:local="clr-namespace:Ui.Desktop"
         mc:Ignorable="d"
         Title="{Binding WindowTitle, Mode=OneWay}" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True"
-        DataContext="{Binding Main, Source={StaticResource Locator}}" FontFamily="{StaticResource EncodeSans}" FontSize="16" Icon="Images/movie-roll.png" ResizeMode="CanResizeWithGrip">
+        DataContext="{Binding Main, Source={StaticResource Locator}}" FontFamily="{StaticResource EncodeSans}" FontSize="16" Icon="/Images/movie-roll.png" ResizeMode="CanResizeWithGrip">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="UI_Elements.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Border x:Name="windowBorder" Background="#FFF1F1F1" CornerRadius="5" Margin="10" RenderTransformOrigin="0.5,0.5" >
         <Border.RenderTransform>
             <TransformGroup>
@@ -34,36 +41,148 @@
                         <Image Source="/Images/movie-roll.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="50" Width="50" />
                     </Border>
                     <TextBlock x:Name="windowTitle" Text="{Binding WindowTitle, Mode=OneWay}" TextAlignment="Center" Padding="0,4,0,0" MouseDown="windowTitle_MouseDown" />
-                    <Ellipse x:Name="ell_closeWindow" Fill="Red" Stroke="DarkRed" Margin="6,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" MouseDown="ell_closeWindow_MouseDown" MouseEnter="ell_closeWindow_MouseEnter" MouseLeave="ell_closeWindow_MouseLeave" />
-                    <Ellipse x:Name="ell_minimizeWindow" Fill="Yellow" Stroke="Orange" Margin="28,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" MouseDown="ell_minimizeWindow_MouseDown" MouseEnter="ell_minimizeWindow_MouseEnter" MouseLeave="ell_minimizeWindow_MouseLeave" />
-                    <Ellipse x:Name="ell_maximizeWindow" Fill="Green" Stroke="DarkGreen" Margin="50,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" MouseDown="ell_maximizeWindow_MouseDown" MouseEnter="ell_maximizeWindow_MouseEnter" MouseLeave="ell_maximizeWindow_MouseLeave" />
+                    <Grid Margin="6,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17" >
+                        <Ellipse x:Name="ell_closeWindow" Style="{StaticResource redEllipse}" MouseDown="ell_closeWindow_MouseUp" />
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="Ellipse.MouseDown">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="0" From="1" Duration="0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.13" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Grid.Triggers>
+                    </Grid>
+                    <Button x:Name="btn_showUserFlyout" Margin="0,0,84,0" Style="{StaticResource squareButton}" BorderBrush="{x:Null}" Height="32" VerticalAlignment="Center" HorizontalAlignment="Right" Width="31" RenderTransformOrigin="0.5,0.5">
+                        <Image Source="/Images/account_circle_black_24dp.png" Height="18" Width="17"  />
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="Button.Click">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)">
+                                            <LinearDoubleKeyFrame Value="0.07" KeyTime="0:0:0"/>
+                                            <LinearDoubleKeyFrame Value="1.1" KeyTime="0:0:0.15"/>
+                                            <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)">
+                                            <LinearDoubleKeyFrame Value="0.08" KeyTime="0:0:0"/>
+                                            <LinearDoubleKeyFrame Value="1.1" KeyTime="0:0:0.15"/>
+                                            <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.3"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Ellipse x:Name="ell_minimizeWindow" Style="{StaticResource yellowEllipse}" Margin="28,6,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" MouseUp="ell_minimizeWindow_MouseUp" />
+                    <Ellipse x:Name="ell_maximizeWindow" Style="{StaticResource greenEllipse}" Margin="50,6,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" MouseUp="ell_maximizeWindow_MouseUp" />
                 </Grid>
             </Border>
-            <Menu Margin="0,30,0,0" Padding="5" FontFamily="{StaticResource EncodeSans}" FontSize="14" Background="{x:Null}" Height="30" VerticalAlignment="Top">
+            <Menu Margin="0,30,116,0" Padding="5" FontFamily="{StaticResource EncodeSans}" FontSize="14" Background="{x:Null}" Height="30" VerticalAlignment="Top">
                 <MenuItem Header="Start">
-                    <MenuItem Header="Startseite" />
+                    <MenuItem x:Name="mi_start" Header="Startseite" Click="mi_start_Click" />
                     <MenuItem x:Name="mi_search" Header="Suche" Click="mi_search_Click"/>
                 </MenuItem>
                 <MenuItem Header="Ausleihe">
-                    <MenuItem Header="Alle Medien" />
-                    <MenuItem Header="Zufälliges Angebot" />
-                    <MenuItem Header="Kategorien" />
+                    <MenuItem x:Name="mi_myContents" Header="Meine Inhalte" Click="mi_myContents_Click" />
+                    <MenuItem x:Name="mi_alleMedien" Header="Alle Medien" Command="{Binding ShowAllArticles}" />
                 </MenuItem>
                 <MenuItem Header="Anmeldung">
-                    <MenuItem Header="Benutzer-Login" Command="{Binding ShowLogin}" />
-                    <MenuItem Header="Mitarbeiter-Login" Command="{Binding ShowLoginEmp}" />
-                    <MenuItem Header="Abmelden"  />
+                    <MenuItem Header="Anmelden" Command="{Binding ShowLogin}" />
+                    <MenuItem x:Name="mi_logout" Header="Abmelden" Command="{Binding ShowLogo}" />
                 </MenuItem>
                 <MenuItem Header="Verwaltung">
-                    <MenuItem x:Name="mi_manageUsers" Header="Benutzer verwalten" Click="mi_manageUsers_Click" />
-                    <MenuItem x:Name="mi_manageMedia" Header="Medien verwalten" Click="mi_manageMedia_Click" />
+                    <MenuItem Header="Benutzer verwalten" Command="{Binding ShowUserManager}" />
+                    <MenuItem Header="Medien verwalten" Command="{Binding ShowMediaManager}" />
                 </MenuItem>
                 <MenuItem Header="Über">
-                    <MenuItem x:Name="mi_about" Header="Über Videothek" Click="mi_about_Click" />
-                    <MenuItem Header="Nach Updates suchen" />
+                    <MenuItem Header="Über Videothek" Command="{Binding ShowAbout}"  />
+                    <MenuItem Header="Nach Updates suchen" Command="{Binding ShowUpdater}" />
                 </MenuItem>
             </Menu>
-            <Frame Source="/Frames/MainPage.xaml" Margin="0,60,0,0"/>
+            <Frame x:Name="fr_Main" Source="/Frames/MainPage.xaml" Margin="0,60,0,0" NavigationUIVisibility="Hidden"/>
+
+            <!-- "Ein Update ist verfügbar"-Banner -->
+            <Border x:Name="brdr_updateBanner" Height="86" VerticalAlignment="Bottom" HorizontalAlignment="Right" CornerRadius="2" Width="332" Margin="0,0,10,10" Background="#FFCCCCCC" RenderTransformOrigin="0.5,0.5" Opacity="10">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform x:Name="bannerTransform" X="360"/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" ShadowDepth="1" BlurRadius="5"/>
+                </Border.Effect>
+                <Grid>
+                    <TextBlock Text="Ein Update ist Verfügbar!" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" />
+                    <CheckBox x:Name="cb_updateAvailable" Content="Ausblenden" IsChecked="True" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,12,10,0" FontSize="13" Loaded="cb_updateAvailable_Loaded" >
+                        <CheckBox.Triggers>
+                            <EventTrigger RoutedEvent="CheckBox.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="bannerTransform" Storyboard.TargetProperty="(TranslateTransform.X)" From="0" To="360" Duration="0:0:0.2" />
+                                        <DoubleAnimation Storyboard.TargetName="brdr_updateBanner" Storyboard.TargetProperty="(Border.Opacity)" From="1" To="0" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="CheckBox.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="bannerTransform" Storyboard.TargetProperty="(TranslateTransform.X)" To="0" From="360" Duration="0:0:0.2" />
+                                        <DoubleAnimation Storyboard.TargetName="brdr_updateBanner" Storyboard.TargetProperty="(Border.Opacity)" To="1" From="0" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </CheckBox.Triggers>
+                    </CheckBox>
+                    <TextBlock FontSize="12" Text="Vielleicht gibt es neue Funktionen oder Fehlerbehebungen." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                    <Button Style="{StaticResource blueButton}" Content="Updater öffnen" Margin="242,56,8,8" FontSize="12" Command="{Binding ShowUpdater}" />
+                </Grid>
+            </Border>
+
+            <Border Margin="0,9,13,0" Background="#FFE2E2E2" CornerRadius="3" RenderTransformOrigin="0.625,0.143" Height="123" VerticalAlignment="Top" HorizontalAlignment="Right" Width="227">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="flyoutTransform" ScaleX="0" ScaleY="0."/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" ShadowDepth="1" BlurRadius="10" />
+                </Border.Effect>
+                <Grid>
+                    <Image Source="/Images/account_circle_black_24dp.png" Opacity="0.2" Height="246" VerticalAlignment="Center" HorizontalAlignment="Center" Width="311" />
+                    <TextBlock Text="Mein Account" FontFamily="{StaticResource EncodeSansBlack}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,8,0,0" />
+                    <Button Margin="198,5,4,0" Background="{x:Null}" BorderBrush="{x:Null}" Height="25" VerticalAlignment="Top">
+                        <Image Source="/Images/close_fullscreen_24dp.png" />
+                    </Button>
+                    <Grid x:Name="grd_loggedIn" Margin="0,30,0,0" Visibility="Collapsed">
+                        <Image Source="/Images/user.png" Margin="10,10,0,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40" />
+                        <TextBlock Text="{Binding FullName}" Margin="55,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <TextBlock Text="{Binding UserName}" Margin="55,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12" />
+                        <Button x:Name="btn_logout" Style="{StaticResource normalButton}" Command="{Binding ShowLogoutWindow}" Margin="0,0,6,5" Content="Abmelden" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom"/>
+                        <Button x:Name="btn_myAccount" Style="{StaticResource normalButton}" Margin="0,0,103,5" Content="Verwalten" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="btn_myAccount_Click" />
+                    </Grid>
+                    <Grid x:Name="grd_loggedOut" Margin="0,30,0,0">
+                        <TextBlock Text="Oh! Du bist leider nicht angemeldet." Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap" Width="207" TextAlignment="Center" />
+
+                        <Button x:Name="btn_register" Style="{StaticResource normalButton}" Command="{Binding ShowRegistrationWindow}" Margin="0,0,6,5" Content="Registrieren" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" />
+                        <Button x:Name="btn_login" Style="{StaticResource normalButton}" Command="{Binding ShowLoginWindow}" Margin="0,0,103,5" Content="Anmelden" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" />
+                    </Grid>
+                </Grid>
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="0" From="1" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Border.Triggers>
+            </Border>
         </Grid>
         <Border.Triggers>
             <EventTrigger RoutedEvent="Window.Loaded">

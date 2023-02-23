@@ -1,11 +1,20 @@
-using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Office2016.Drawing.Charts;
+using DocumentFormat.OpenXml.Office2021.DocumentTasks;
+using DocumentFormat.OpenXml.Presentation;
+using DocumentFormat.OpenXml.Spreadsheet;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Linq;
+using System.Data.Common;
+using System.Data.Entity;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace Ui.Logic.ViewModel {
@@ -20,30 +29,24 @@ namespace Ui.Logic.ViewModel {
                 WindowTitle = "Videothek";
             }
 
+            Service service = new Service();
             media = new ObservableCollection<MediaList>();
-            media.Add(new MediaList(1, "Test 1", 11, 5, "DVD"));
-            media.Add(new MediaList(2, "Test 2", 11, 9, "Blu-Ray"));
-            media.Add(new MediaList(3, "Test 3", 11, 12, "4K-Blu-Ray"));
-            media.Add(new MediaList(4, "Test: Die komplette remastered Trilogie", 11, 19, "4K-Blu-Ray"));
-            media.Add(new MediaList(5, "TSBW-Simulator 2022: Der Ausbildungsstart", 13, 666, "Videospiel"));
-            media.Add(new MediaList(5, "TSBW-Simulator 2021: Die BVB", 10, 5, "Videospiel"));
-            media.Add(new MediaList(6, "Cooking Linda: Die Schnitzeljagd", 2, 4, "Videospiel"));
-            media.Add(new MediaList(7, "Hello World-Programme für Dummies", 2, 10, "Buch"));
-            media.Add(new MediaList(8, "Das ultimative Curry-Kochbuch", 1, 9999, "Buch"));
-            media.Add(new MediaList(9, "AJs Workouts am Grill", 6, 23, "Buch"));
-            media.Add(new MediaList(10, "Tolle Musik-Collection", 12, 6, "Musik-CD"));
+            foreach (var item in service.getAllMedia()) {
+                media.Add(new MediaList(item.Id, item.Title, item.LeasePrice, item.Amount, item.Category.ToString()));
+            }
+            
+
+            UserName = "@benutzerName2023";
+            FullName = "Benutzer Name";
         }
 
         private List<string> _MediaSelection { get; set; }
         public List<string> MediaSelection { get { return _MediaSelection; } set { _MediaSelection = value; RaisePropertyChanged(); } }
 
         private ICommand _ShowLogin;
-        public ICommand ShowLogin
-        {
-            get
-            {
-                if (_ShowLogin == null)
-                {
+        public ICommand ShowLogin {
+            get {
+                if (_ShowLogin == null) {
                     _ShowLogin = new RelayCommand(() => {
                         //Logic here
                         MessageBox.Show("TODO: Kunden-Login-Fenster soll erscheinen");
@@ -71,9 +74,175 @@ namespace Ui.Logic.ViewModel {
         public class MediaList {
             public MediaList(int articleId, string name, int amount, decimal leasePrice, string category) {
                 Name = name;
+                Kategorie = category;
+                Mietpreis = leasePrice.ToString();
             }
 
             public string Name { get; set; }
+            public string Kategorie { get; set; }
+            public string Mietpreis { get; set; }
         }
+
+        private string _UserName { get; set; }
+        public string UserName { get { return _UserName; } set { _UserName = value; RaisePropertyChanged(); } }
+        private string _FullName { get; set; }
+        public string FullName  { get { return _FullName; } set { _FullName = value; RaisePropertyChanged(); } }
+
+
+        private ICommand _ShowAbout;
+        public ICommand ShowAbout {
+            get {
+                if (_ShowAbout == null) {
+                    _ShowAbout = new RelayCommand<object>(x => {
+                        Messenger.Default.Send<NavigationMessage>(new NavigationMessage("about"));
+                    });
+                }
+                return _ShowAbout;
+            }
+        }
+
+        private ICommand _ShowUpdater;
+        public ICommand ShowUpdater {
+            get {
+                if (_ShowUpdater == null) {
+                    _ShowUpdater = new RelayCommand<object>(x => {
+                        Messenger.Default.Send<NavigationMessage>(new NavigationMessage("updater"));
+                    });
+                }
+                return _ShowUpdater;
+            }
+        }
+
+        private ICommand _ShowUserManager;
+        public ICommand ShowUserManager {
+            get {
+                if (_ShowUpdater == null) {
+                    _ShowUserManager = new RelayCommand<object>(x => {
+                        Messenger.Default.Send<NavigationMessage>(new NavigationMessage("usermanager"));
+                    });
+                }
+                return _ShowUserManager;
+            }
+        }
+
+
+        private ICommand _ShowLoginWindow;
+        public ICommand ShowLoginWindow {
+            get {
+                if (_ShowLoginWindow == null) {
+                    _ShowLoginWindow = new RelayCommand<object>(x => {
+                        Messenger.Default.Send<NavigationMessage>(new NavigationMessage("login"));
+                    });
+                }
+                return _ShowLoginWindow;
+            }
+        }
+
+
+        private ICommand _ShowLogoutWindow;
+        public ICommand ShowLogoutWindow {
+            get {
+                if (_ShowLogoutWindow == null) {
+                    _ShowLogoutWindow = new RelayCommand<object>(x => {
+                        Messenger.Default.Send<NavigationMessage>(new NavigationMessage("logout"));
+                    });
+                }
+                return _ShowLogoutWindow;
+            }
+        }
+
+
+        private ICommand _ShowRegistrationWindow;
+        public ICommand ShowRegistrationWindow {
+            get {
+                if (_ShowRegistrationWindow == null) {
+                    _ShowRegistrationWindow = new RelayCommand<object>(x => {
+                        Messenger.Default.Send<NavigationMessage>(new NavigationMessage("register"));
+                    });
+                }
+                return _ShowRegistrationWindow;
+            }
+        }
+
+        private ICommand _ShowMediaManager;
+        public ICommand ShowMediaManager {
+            get {
+                if (_ShowMediaManager == null) {
+                    _ShowMediaManager = new RelayCommand<object>(x => {
+                        Messenger.Default.Send<NavigationMessage>(new NavigationMessage("mediamanager"));
+                    });
+                }
+                return _ShowMediaManager;
+            }
+        }
+
+        private ICommand _ShowAllArticles;
+        public ICommand ShowAllArticles {
+            get {
+                if (_ShowAllArticles == null) {
+                    _ShowAllArticles = new RelayCommand<object>(x => {
+                        Messenger.Default.Send<NavigationMessage>(new NavigationMessage("alleArtikel"));
+                    });
+                }
+                return _ShowAllArticles;
+            }
+        }
+    }
+
+    class Service {
+
+        public List<Medium> getAllMedia() {
+
+            var MedienListe = new List<Medium>();
+                
+                using (videothek_development db = new videothek_development()) {
+
+                // Original query
+                //var query = from a in db.Article
+                //            select new { a.ArticleId,
+                //                        a.Name,
+                //                        a.Amount,
+                //                        a.LeasePrice,
+                //                        a.CategoryId };
+
+                // Quelle: ChatGPT (hat die query umgeschrieben und so verändert, dass die Elemente zufällig und maximal 10 davon selected.)
+                // Select random articles
+                var query = db.Article
+                              .OrderBy(x => Guid.NewGuid()) // Order by a random value
+                              .Select(a => new {
+                                  a.ArticleId,
+                                  a.Name,
+                                  a.Amount,
+                                  a.LeasePrice,
+                                  a.CategoryId
+                              })
+                              .Take(10); // Select a maximum of 10 random articles
+
+
+                int tempCategoryInt;
+                foreach (var item in query) {
+                    tempCategoryInt = item.CategoryId;
+                    MedienListe.Add(new Medium() {
+                        Id = Convert.ToInt32(item.ArticleId),
+                        Title = item.Name,
+                        Amount = Convert.ToInt32(item.Amount),
+                        LeasePrice = Convert.ToInt32(item.LeasePrice),
+                        Category = db.Category
+                            .Where(c => c.CategoryId.Equals(tempCategoryInt))
+                            .Select(c => c.Name)
+                            .SingleOrDefault()
+                    });
+                }
+            }
+            return MedienListe;
+        }
+    }
+
+    class Medium {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public int Amount { get; set; }
+        public int LeasePrice { get; set;}
+        public string Category { get; set;}
     }
 }
