@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ui.Desktop.Windows"
+        xmlns:xrpb="http://XamlRadialProgressBar/DotNet"
         mc:Ignorable="d"
         DataContext="{Binding search, Source={StaticResource Locator}}" FontSize="16" ResizeMode="NoResize" ShowInTaskbar="False" FontFamily="{StaticResource EncodeSans}"
         Title="Über Videothek" Height="180" Width="389" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True">
@@ -46,26 +47,18 @@
                 </Grid>
             </Border>
             <TextBlock FontFamily="{StaticResource EncodeSansBlack}" Text="Suchen" Margin="10,35,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <Image Source="/UIElements/textboxes/active_txtbox_center.png" Margin="10,82,10,0" Stretch="Fill" Height="28" VerticalAlignment="Top" />
-            <Image Source="/UIElements/textboxes/active_txtbox_side.png" Margin="7,82,0,0" Stretch="Fill" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" Width="4" />
-            <Image Source="/UIElements/textboxes/active_txtbox_side.png" Margin="0,82,7,0" Stretch="Fill" Height="28" VerticalAlignment="Top" HorizontalAlignment="Right" Width="4" RenderTransformOrigin="0.5,0.5" >
-                <Image.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleX="-1"/>
-                    </TransformGroup>
-                </Image.RenderTransform>
-            </Image>
             <TextBox Margin="10,85,10,0" VerticalAlignment="Top" Background="{x:Null}" />
             <ListBox Margin="10,113,10,57" Background="White" BorderBrush="{x:Null}" />
             <Grid Background="#4C000000" Margin="10,113,10,57" >
-                <TextBlock Text="Laden..." HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="152,0,0,36" />
-                <Image Source="/Images/loading_circle.png" Margin="0,38,0,0" HorizontalAlignment="Center" Width="45" Height="45" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" >
-                    <Image.RenderTransform>
-                        <TransformGroup>
-                            <RotateTransform x:Name="loadingCircleAnimation" Angle="0"/>
-                        </TransformGroup>
-                    </Image.RenderTransform>
-                </Image>
+                <TextBlock Text="Laden..." HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,88,0,0" />
+                <xrpb:RadialProgressBar Margin="0,33,0,0" Height="50" VerticalAlignment="Top" Width="50" HorizontalAlignment="Center" IsIndeterminate="True" Background="{x:Null}" >
+                    <xrpb:RadialProgressBar.Foreground>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF1300FF" Offset="1"/>
+                            <GradientStop Color="#FF5B009C" Offset="0"/>
+                        </LinearGradientBrush>
+                    </xrpb:RadialProgressBar.Foreground>
+                </xrpb:RadialProgressBar>
             </Grid>
             <Button Style="{StaticResource blueButton}" Content="Suchen" Margin="0,0,10,10" HorizontalAlignment="Right" Width="108" Height="34" VerticalAlignment="Bottom">
                 <Button.Triggers>
@@ -77,7 +70,6 @@
                                     <LinearDoubleKeyFrame Value="400" KeyTime="0:0:0.1"/>
                                     <LinearDoubleKeyFrame Value="330" KeyTime="0:0:0.15"/>
                                 </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimation x:Name="circleRotation" Storyboard.TargetName="loadingCircleAnimation" Storyboard.TargetProperty="(RotateTransform.Angle)" From ="0" To="359" Duration="0:0:1" RepeatBehavior="Forever" />
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>

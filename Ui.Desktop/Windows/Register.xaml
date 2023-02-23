@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ui.Desktop.Windows"
         mc:Ignorable="d" DataContext="{Binding Register, Source={StaticResource Locator}}"  FontFamily="{StaticResource EncodeSans}" FontSize="16" ResizeMode="NoResize" ShowInTaskbar="False"
-        Title="Über Videothek" Height="406" Width="389" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True">
+        Title="Über Videothek" Height="438" Width="389" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -49,15 +49,16 @@
                 <TextBlock FontFamily="{StaticResource EncodeSansBlack}" Text="Benutzername" Margin="10,88,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <TextBox Margin="10,108,10,0" VerticalAlignment="Top" Style="{StaticResource textBox}" />
                 <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="E-Mail" Margin="10,147,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                <TextBox Margin="10,0,10,0" VerticalAlignment="Center" Style="{StaticResource textBox}"/>
+                <TextBox Margin="10,167,10,0" VerticalAlignment="Top" Style="{StaticResource textBox}"/>
                 <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="Passwort" Margin="10,204,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                <TextBox Style="{StaticResource textBox}" Margin="10,224,10,0" VerticalAlignment="Top" />
+                <PasswordBox x:Name="pw_1" Margin="10,224,10,0" VerticalAlignment="Top" />
                 <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="Passwort wiederholen" Margin="10,257,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                <TextBox Style="{StaticResource textBox}" Margin="0,277,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="348" />
+                <PasswordBox x:Name="pw_2" Margin="0,277,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="348" PasswordChanged="pw_2_PasswordChanged" />
                 <Button Style="{StaticResource blueButton}" Content="Registrieren" Margin="0,0,10,10" HorizontalAlignment="Right" Width="116" Height="34" VerticalAlignment="Bottom" />
                 <TextBlock x:Name="txt_agb" Text="AGBs" Cursor="Hand" Margin="0,47,9,0" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" Foreground="#FF0033FF" TextDecorations="Underline" MouseDown="txt_agb_MouseDown" />
                 <TextBlock x:Name="txt_dsgvo" Text="Datenschutzerklärung" Cursor="Hand" Margin="59,67,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="#FF0033FF" TextDecorations="Underline" MouseDown="txt_dsgvo_MouseDown" />
                 <TextBlock x:Name="txt_usernameInUse" Text="Leider bereits vergeben" Margin="0,88,9,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Foreground="Red" />
+                <TextBlock x:Name="txt_nonMatchingPasswords" Visibility="Collapsed" Text="Die Passwörter stimmen nicht überein. Das Passwort im unteren Eingabefeld wird somit übernommen." TextWrapping="Wrap" Margin="0,304,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30" Foreground="Red" FontSize="12" Width="350" />
             </Grid>
 
         </Grid>

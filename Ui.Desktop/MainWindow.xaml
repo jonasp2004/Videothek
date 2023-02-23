@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Ui.Desktop"
         mc:Ignorable="d"
         Title="{Binding WindowTitle, Mode=OneWay}" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True"
-        DataContext="{Binding Main, Source={StaticResource Locator}}" FontFamily="{StaticResource EncodeSans}" FontSize="16" Icon="Images/movie-roll.png" ResizeMode="CanResizeWithGrip">
+        DataContext="{Binding Main, Source={StaticResource Locator}}" FontFamily="{StaticResource EncodeSans}" FontSize="16" Icon="/Images/movie-roll.png" ResizeMode="CanResizeWithGrip">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -48,7 +48,7 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="0" From="1" Duration="0:0:0.15" />
-                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.13" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -61,12 +61,12 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)">
-                                            <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0"/>
+                                            <LinearDoubleKeyFrame Value="0.07" KeyTime="0:0:0"/>
                                             <LinearDoubleKeyFrame Value="1.1" KeyTime="0:0:0.15"/>
                                             <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.3"/>
                                         </DoubleAnimationUsingKeyFrames>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)">
-                                            <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0"/>
+                                            <LinearDoubleKeyFrame Value="0.08" KeyTime="0:0:0"/>
                                             <LinearDoubleKeyFrame Value="1.1" KeyTime="0:0:0.15"/>
                                             <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.3"/>
                                         </DoubleAnimationUsingKeyFrames>
@@ -86,26 +86,67 @@
                 </MenuItem>
                 <MenuItem Header="Ausleihe">
                     <MenuItem x:Name="mi_myContents" Header="Meine Inhalte" Click="mi_myContents_Click" />
-                    <MenuItem x:Name="mi_alleMedien" Header="Alle Medien" Click="mi_alleMedien_Click" />
+                    <MenuItem x:Name="mi_alleMedien" Header="Alle Medien" Command="{Binding ShowAllArticles}" />
                 </MenuItem>
                 <MenuItem Header="Anmeldung">
-                    <MenuItem Header="Anmelden" Click="MenuItem_Click"  />
-                    <MenuItem x:Name="mi_logout" Header="Abmelden" Click="mi_logout_Click"  />
+                    <MenuItem Header="Anmelden" Command="{Binding ShowLogin}" />
+                    <MenuItem x:Name="mi_logout" Header="Abmelden" Command="{Binding ShowLogo}" />
                 </MenuItem>
                 <MenuItem Header="Verwaltung">
-                    <MenuItem x:Name="mi_manageUsers" Header="Benutzer verwalten" Click="mi_manageUsers_Click" />
-                    <MenuItem x:Name="mi_manageMedia" Header="Medien verwalten" Click="mi_manageMedia_Click" />
+                    <MenuItem Header="Benutzer verwalten" Command="{Binding ShowUserManager}" />
+                    <MenuItem Header="Medien verwalten" Command="{Binding ShowMediaManager}" />
                 </MenuItem>
                 <MenuItem Header="Über">
-                    <MenuItem x:Name="mi_about" Header="Über Videothek" Click="mi_about_Click" />
-                    <MenuItem x:Name="mi_update" Header="Nach Updates suchen" Click="mi_update_Click" />
+                    <MenuItem Header="Über Videothek" Command="{Binding ShowAbout}"  />
+                    <MenuItem Header="Nach Updates suchen" Command="{Binding ShowUpdater}" />
                 </MenuItem>
             </Menu>
             <Frame x:Name="fr_Main" Source="/Frames/MainPage.xaml" Margin="0,60,0,0" NavigationUIVisibility="Hidden"/>
-            <Border Margin="0,10,10,0" Background="#FFE2E2E2" CornerRadius="3" RenderTransformOrigin="0.625,0.143" Height="123" VerticalAlignment="Top" HorizontalAlignment="Right" Width="227">
+
+            <!-- "Ein Update ist verfügbar"-Banner -->
+            <Border x:Name="brdr_updateBanner" Height="86" VerticalAlignment="Bottom" HorizontalAlignment="Right" CornerRadius="2" Width="332" Margin="0,0,10,10" Background="#FFCCCCCC" RenderTransformOrigin="0.5,0.5" Opacity="10">
                 <Border.RenderTransform>
                     <TransformGroup>
-                        <ScaleTransform x:Name="flyoutTransform" ScaleX="0" ScaleY="0"/>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform x:Name="bannerTransform" X="360"/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" ShadowDepth="1" BlurRadius="5"/>
+                </Border.Effect>
+                <Grid>
+                    <TextBlock Text="Ein Update ist Verfügbar!" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" />
+                    <CheckBox x:Name="cb_updateAvailable" Content="Ausblenden" IsChecked="True" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,12,10,0" FontSize="13" Loaded="cb_updateAvailable_Loaded" >
+                        <CheckBox.Triggers>
+                            <EventTrigger RoutedEvent="CheckBox.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="bannerTransform" Storyboard.TargetProperty="(TranslateTransform.X)" From="0" To="360" Duration="0:0:0.2" />
+                                        <DoubleAnimation Storyboard.TargetName="brdr_updateBanner" Storyboard.TargetProperty="(Border.Opacity)" From="1" To="0" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="CheckBox.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="bannerTransform" Storyboard.TargetProperty="(TranslateTransform.X)" To="0" From="360" Duration="0:0:0.2" />
+                                        <DoubleAnimation Storyboard.TargetName="brdr_updateBanner" Storyboard.TargetProperty="(Border.Opacity)" To="1" From="0" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </CheckBox.Triggers>
+                    </CheckBox>
+                    <TextBlock FontSize="12" Text="Vielleicht gibt es neue Funktionen oder Fehlerbehebungen." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                    <Button Style="{StaticResource blueButton}" Content="Updater öffnen" Margin="242,56,8,8" FontSize="12" Command="{Binding ShowUpdater}" />
+                </Grid>
+            </Border>
+
+            <Border Margin="0,9,13,0" Background="#FFE2E2E2" CornerRadius="3" RenderTransformOrigin="0.625,0.143" Height="123" VerticalAlignment="Top" HorizontalAlignment="Right" Width="227">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="flyoutTransform" ScaleX="0" ScaleY="0."/>
                     </TransformGroup>
                 </Border.RenderTransform>
                 <Border.Effect>
@@ -121,14 +162,14 @@
                         <Image Source="/Images/user.png" Margin="10,10,0,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40" />
                         <TextBlock Text="{Binding FullName}" Margin="55,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                         <TextBlock Text="{Binding UserName}" Margin="55,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12" />
-                        <Button x:Name="btn_logout" Style="{StaticResource normalButton}" Margin="0,0,6,5" Content="Abmelden" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="mi_logout_Click"/>
+                        <Button x:Name="btn_logout" Style="{StaticResource normalButton}" Command="{Binding ShowLogoutWindow}" Margin="0,0,6,5" Content="Abmelden" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom"/>
                         <Button x:Name="btn_myAccount" Style="{StaticResource normalButton}" Margin="0,0,103,5" Content="Verwalten" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="btn_myAccount_Click" />
                     </Grid>
                     <Grid x:Name="grd_loggedOut" Margin="0,30,0,0">
                         <TextBlock Text="Oh! Du bist leider nicht angemeldet." Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" TextWrapping="Wrap" Width="207" TextAlignment="Center" />
 
-                        <Button x:Name="btn_register" Style="{StaticResource normalButton}" Margin="0,0,6,5" Content="Registrieren" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="btn_register_Click" />
-                        <Button x:Name="btn_login" Style="{StaticResource normalButton}" Margin="0,0,103,5" Content="Anmelden" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" Click="MenuItem_Click" />
+                        <Button x:Name="btn_register" Style="{StaticResource normalButton}" Command="{Binding ShowRegistrationWindow}" Margin="0,0,6,5" Content="Registrieren" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" />
+                        <Button x:Name="btn_login" Style="{StaticResource normalButton}" Command="{Binding ShowLoginWindow}" Margin="0,0,103,5" Content="Anmelden" HorizontalAlignment="Right" Width="92" Height="30" VerticalAlignment="Bottom" />
                     </Grid>
                 </Grid>
                 <Border.Triggers>

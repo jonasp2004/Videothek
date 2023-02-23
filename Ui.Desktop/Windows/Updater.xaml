@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ui.Desktop.Windows"
         mc:Ignorable="d" DataContext="{Binding Update, Source={StaticResource Locator}}"
-        Title="{Binding WindowTitle}" Height="361" Width="422" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True"
+        Title="{Binding WindowTitle}" Height="448" Width="422" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True"
         FontFamily="{StaticResource EncodeSans}" FontSize="16" ShowInTaskbar="False" ResizeMode="NoResize" >
     <Window.Resources>
         <ResourceDictionary>
@@ -14,7 +14,10 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Border Style="{StaticResource windowBorder}" RenderTransformOrigin="0.5,0.5">
+    <Border Style="{StaticResource windowBorder}" BorderThickness="1" RenderTransformOrigin="0.5,0.5" Margin="0" BorderBrush="Black">
+        <Border.Effect>
+            <DropShadowEffect Opacity="0" />
+        </Border.Effect>
         <Border.RenderTransform>
             <TransformGroup>
                 <ScaleTransform x:Name="windowScale"/>
@@ -29,6 +32,12 @@
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="1" To="0.98" Duration="0:0:0.1" />
                                 <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="1" To="0.98" Duration="0:0:0.1" />
+
+                                <DoubleAnimation Storyboard.TargetName="borderTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1" From="1.5" Duration="0:0:0.2" />
+                                <DoubleAnimation Storyboard.TargetName="borderTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="1" From="2" Duration="0:0:0.2" />
+                                <DoubleAnimation Storyboard.TargetName="brdr_waiting" Storyboard.TargetProperty="(Border.Opacity)" From="0" To="1" Duration="0:0:0.2" />
+
+
                                 <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" To="25" From="0" Duration="0:0:0.1" />
                             </Storyboard>
                         </BeginStoryboard>
@@ -38,6 +47,11 @@
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1" From="0.98" Duration="0:0:0.1" />
                                 <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="1" From="0.98" Duration="0:0:0.1" />
+
+                                <DoubleAnimation Storyboard.TargetName="borderTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="1" To="1.5" Duration="0:0:0.2" />
+                                <DoubleAnimation Storyboard.TargetName="borderTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="1" To="2" Duration="0:0:0.2" />
+                                <DoubleAnimation Storyboard.TargetName="brdr_waiting" Storyboard.TargetProperty="(Border.Opacity)" To="0" From="1" Duration="0:0:0.2" />
+
                                 <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" From="25" To="0" Duration="0:0:0.05" />
                             </Storyboard>
                         </BeginStoryboard>
@@ -50,7 +64,7 @@
                 <Grid>
                     <TextBlock x:Name="txt_windowTitle" Text="{Binding WindowTitle}" MouseDown="txt_windowTitle_MouseDown" TextAlignment="Center" Padding="0,3.5,0,0" />
                     <Grid Height="18" Width="17" HorizontalAlignment="Left" Margin="7,6,0,0" VerticalAlignment="Top">
-                        <Ellipse x:Name="ell_closeWindow" Style="{StaticResource redEllipse}" />
+                        <Ellipse x:Name="ell_closeWindow" Style="{StaticResource redEllipse}" MouseDown="ell_closeWindow_MouseDown" />
                         <Grid.Triggers>
                             <EventTrigger RoutedEvent="Ellipse.MouseDown">
                                 <BeginStoryboard>
@@ -62,8 +76,8 @@
                         </Grid.Triggers>
                     </Grid>
                     <TextBlock Text="Kanal:" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,175,16" />
-                    <ComboBox Margin="0,0,10,13" VerticalAlignment="Bottom" SelectedIndex="2" HorizontalAlignment="Right" Width="160">
-                        <ComboBoxItem Content="Öffentlich" />
+                    <ComboBox Margin="0,0,10,13" VerticalAlignment="Bottom" SelectedIndex="{Binding ChannelSelect}" HorizontalAlignment="Right" Width="160">
+                        <ComboBoxItem Content="Stabil" />
                         <ComboBoxItem Content="Developer (Instabil)" Foreground="#FF4C2B2B" />
                         <ComboBoxItem Content="Canary (Sehr instabil)" Foreground="Red" />
                     </ComboBox>
@@ -83,15 +97,41 @@
                 <Image Width="45" Height="45" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Source="/Images/einstellungen_45px.png" />
                 <TextBlock FontFamily="{StaticResource EncodeSansBlack}" Text="App-Update" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,7,0,0" FontSize="36" />
                 <TextBlock Text="Halte die Anwendung auf den neusten Stand, damit du unseren Service sicher nutzen kannst." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,57,0,0" TextWrapping="Wrap" />
-                <TextBlock x:Name="txt_lastUpdateChecked" Text="Letzter Update-Check:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,109,0,0" TextWrapping="Wrap" />
-                <TextBlock Text="{Binding latestVersion}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,134,0,0" TextWrapping="Wrap" />
-                <TextBlock x:Name="txt_thisVersion" Text="Diese Version:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,159,0,0" TextWrapping="Wrap" />
-                <TextBlock Text="Du verwendest die aktuellste Version." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,194,0,0" TextWrapping="Wrap" Foreground="#FF0C6300" />
-                <Button Style="{StaticResource blueButton}" Command="{Binding PrepareSearch}" Margin="0,0,10,10" Content="Nach Update suchen" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="135" Height="25" Click="Button_Click"/>
+                <TextBlock x:Name="txt_lastUpdateChecked" Text="Letzter Update-Check: k.A." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,135,0,0" TextWrapping="Wrap" />
+                <TextBlock x:Name="txt_newestVersion" Text="{Binding latestVersion}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,160,0,0" TextWrapping="Wrap" />
+                <TextBlock x:Name="txt_thisVersion" Text="Diese Version:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,110,0,0" TextWrapping="Wrap" />
+                <TextBlock x:Name="txt_updateHelperText" Text="Bitte prüfe erst auf eine neue Version" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="65,0,0,60" TextWrapping="Wrap" Foreground="#FF0C6300" />
+                <Button Style="{StaticResource blueButton}" Command="{Binding PrepareSearch}" Margin="0,0,10,10" Content="Nur nach Update suchen" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="167" Height="28" Click="Button_Click"/>
+                <Button Style="{StaticResource blueButton}" Command="{Binding PrepareInstallation}" Margin="0,0,182,10" Content="Aktuellste Version herunterladen" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="220" Height="28" Click="Button_Click" />
+                <TextBlock Text="{Binding UpdateReleaseDate}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,185,0,0" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding Patchnotes}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,210,0,0" TextWrapping="Wrap" MaxWidth="340" />
             </Grid>
             <!-- {Binding waitingVisible} -->
-            <Border Background="#7F000000" CornerRadius="4" Visibility="Collapsed">
-                <TextBlock Text="Sucht nach Updates...&#10;Bitte warte einen Moment!" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" TextAlignment="Center" />
+            <Border x:Name="brdr_waiting" Background="#7F000000" CornerRadius="4" Visibility="{Binding waitingVisible}" RenderTransformOrigin="0.5,0.5" Opacity="0.99">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="borderTransform" />
+                    </TransformGroup>
+                </Border.RenderTransform>
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="200">
+                    <TextBlock Text="{Binding SearchingDesc}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" TextAlignment="Center" />
+                    <ProgressBar Height="6" VerticalAlignment="Top" Margin="0,65,0,0" IsIndeterminate="{Binding IsProgressBarIndetemiate}" Value="{Binding ProgressVarValue}" BorderBrush="#33000000" Background="#33000000" >
+                        <ProgressBar.Foreground>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <LinearGradientBrush.RelativeTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                        <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                        <RotateTransform Angle="-90" CenterX="0.5" CenterY="0.5"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </LinearGradientBrush.RelativeTransform>
+                                <GradientStop Color="Transparent"/>
+                                <GradientStop Color="White" Offset="1"/>
+                            </LinearGradientBrush>
+                        </ProgressBar.Foreground>
+                    </ProgressBar>
+                </Grid>
             </Border>
         </Grid>
         <Border.Triggers>

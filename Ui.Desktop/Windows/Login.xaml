@@ -57,11 +57,11 @@
                 <TextBlock FontFamily="{StaticResource EncodeSansBlack}" Text="Benutzername" Margin="10,99,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <TextBox Margin="10,119,10,0" VerticalAlignment="Top" Style="{StaticResource textBox}" />
                 <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="Passwort" Margin="10,158,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                <TextBox Margin="10,178,10,0" VerticalAlignment="Top" Style="{StaticResource textBox}" />
+                <PasswordBox x:Name="txt_password" Margin="10,178,10,0" VerticalAlignment="Top" PasswordChanged="txt_password_PasswordChanged" />
                 <TextBlock Text="Du hast noch kein Benutzerkonto? Hier registrieren!" Cursor="Hand" Margin="0,0,10,10" TextDecorations="Underline" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FF0084FF" MouseDown="TextBlock_MouseDown" />
                 <Button Content="Anmelden" Command="{Binding PrepareSendData}" Margin="0,0,10,30" HorizontalAlignment="Right" Width="116" Height="34" VerticalAlignment="Bottom" Style="{StaticResource blueButton}" />
             </Grid>
-            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding blurActivate}" VerticalAlignment="Top" Content="Blur aktivieren" Margin="0,-33,0,0" Unchecked="CheckBox_Unchecked">
+            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding blurActivate}" VerticalAlignment="Top" Content="Blur aktivieren" Margin="-301,-35,0,0" Unchecked="CheckBox_Unchecked">
                 <CheckBox.Triggers>
                     <EventTrigger RoutedEvent="CheckBox.Checked">
                         <BeginStoryboard>
@@ -87,7 +87,7 @@
             <Border Background="#7F000000" CornerRadius="5" Visibility="{Binding WaitGridVisibility}">
                 <TextBlock Text="Anmelden..." HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
             </Border>
-            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding blurActivate}" VerticalAlignment="Top" Content="Schließen-Animation" Margin="123,-33,0,0" Unchecked="CheckBox_Unchecked">
+            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding blurActivate}" VerticalAlignment="Top" Content="Schließen-Animation" Margin="-175,-35,0,0" Unchecked="CheckBox_Unchecked">
                 <CheckBox.Triggers>
                     <EventTrigger RoutedEvent="CheckBox.Unchecked">
                         <BeginStoryboard>

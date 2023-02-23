@@ -167,6 +167,7 @@
     <Style TargetType="Ellipse" x:Key="redEllipse">
         <Setter Property="Fill" Value="Red" />
         <Setter Property="Stroke" Value="DarkRed" />
+        <Setter Property="StrokeThickness" Value="1.5" />
         <Setter Property="Width" Value="17" />
         <Setter Property="Height" Value="17" />
         <Style.Triggers>
@@ -183,6 +184,7 @@
     <Style TargetType="Ellipse" x:Key="yellowEllipse">
         <Setter Property="Fill" Value="Yellow" />
         <Setter Property="Stroke" Value="Orange" />
+        <Setter Property="StrokeThickness" Value="1.5" />
         <Setter Property="Width" Value="17" />
         <Setter Property="Height" Value="17" />
         <Style.Triggers>
@@ -199,6 +201,7 @@
     <Style TargetType="Ellipse" x:Key="greenEllipse">
         <Setter Property="Fill" Value="Green" />
         <Setter Property="Stroke" Value="DarkGreen" />
+        <Setter Property="StrokeThickness" Value="1.5" />
         <Setter Property="Width" Value="17" />
         <Setter Property="Height" Value="17" />
         <Style.Triggers>

@@ -1,8 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Ui.Logic.ViewModel;
 
 namespace Ui.Desktop.Windows {
 
@@ -41,5 +43,29 @@ namespace Ui.Desktop.Windows {
         private void ell_closeWindow_MouseEnter(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.DarkRed; }
 
         private void ell_closeWindow_MouseLeave(object sender, MouseEventArgs e) { ell_closeWindow.Fill = Brushes.Red; }
+
+        private void pw_1_PasswordChanged(object sender, RoutedEventArgs e) {
+            PasswordCheck();
+            (this.DataContext as RegisterViewModel).Password2 = ((PasswordBox)sender).Password;
+        }
+
+        private void pw_2_PasswordChanged(object sender, RoutedEventArgs e) {
+            PasswordCheck();
+            (this.DataContext as RegisterViewModel).Password = ((PasswordBox)sender).Password;
+        }
+
+        protected void PasswordCheck() {
+            if (pw_1.Password != pw_2.Password) {
+                txt_nonMatchingPasswords.Visibility = Visibility.Visible;
+                txt_nonMatchingPasswords.Text = "Die Passwörter stimmen nicht überein. Das Passwort im unteren Eingabefeld wird somit übernommen.";
+            } else {
+                if(pw_2.Password == "" && pw_1.Password == "") {
+                    txt_nonMatchingPasswords.Visibility = Visibility.Visible;
+                    txt_nonMatchingPasswords.Text = "Die Passworteingabe darf nicht leer sein!";
+                } else {
+                    txt_nonMatchingPasswords.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
     }
 }

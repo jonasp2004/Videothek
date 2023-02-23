@@ -9,11 +9,10 @@
              xmlns:vm="clr-namespace:Ui.Logic.ViewModel;assembly=Ui.Logic">
     <Application.Resources>
         <ResourceDictionary>
-            <vm:ViewModelLocator x:Key="Locator"
-                           d:IsDataSource="True" />
-
             <FontFamily x:Key="EncodeSans">pack://application:,,,/Fonts/#Encode Sans Condensed Medium</FontFamily>
             <FontFamily x:Key="EncodeSansBlack">pack://application:,,,/Fonts/#Encode Sans Condensed Black</FontFamily>
+            <vm:ViewModelLocator x:Key="Locator"
+                           d:IsDataSource="True" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

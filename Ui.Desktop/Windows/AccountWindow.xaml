@@ -57,15 +57,17 @@
                     <ColumnDefinition Width="200"/>
                     <ColumnDefinition Width="523*"/>
                 </Grid.ColumnDefinitions>
-                <Grid Background="#FFB1AFB1">
-                    <Image Source="/Images/user.png" HorizontalAlignment="Center" VerticalAlignment="Top" Height="88" Width="90" Margin="0,20,0,0" />
-                    <TextBlock Text="{Binding FullName}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Margin="0,113,0,0" />
-                    <TextBlock Text="{Binding UserName}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,143,0,0" />
-                    <TextBlock Text="{Binding Email}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,163,0,0" MaxWidth="180" FontSize="12" />
-                    <Button Style="{StaticResource blueButton}" Command="{Binding PrepareSendData}" Margin="0,188,0,0" Content="Änderungen übernehmen" FontSize="12" HorizontalAlignment="Center" Width="136" Height="28" VerticalAlignment="Top" />
-                    <Button x:Name="btn_requestMyData" Style="{StaticResource normalButton}" Margin="0,0,0,41" Content="Meine Daten anfordern" FontSize="12" HorizontalAlignment="Center" Width="124" Height="26" VerticalAlignment="Bottom" />
-                    <Button x:Name="btn_removeAccount_Copy" Style="{StaticResource normalButton}" Margin="0,0,0,10" Content="Account löschen" FontSize="12" HorizontalAlignment="Center" Width="100" Height="26" VerticalAlignment="Bottom" />
-                </Grid>
+                <Border Background="#FFB1AFB1" CornerRadius="0,0,0,5" >
+                    <Grid>
+                        <Image Source="/Images/user.png" HorizontalAlignment="Center" VerticalAlignment="Top" Height="88" Width="90" Margin="0,20,0,0" />
+                        <TextBlock Text="{Binding FullName}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Margin="0,113,0,0" />
+                        <TextBlock Text="{Binding UserName}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,143,0,0" />
+                        <TextBlock Text="{Binding Email}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,163,0,0" MaxWidth="180" FontSize="12" />
+                        <Button Style="{StaticResource blueButton}" Command="{Binding PrepareSendData}" Margin="0,188,0,0" Content="Änderungen übernehmen" FontSize="12" HorizontalAlignment="Center" Width="136" Height="28" VerticalAlignment="Top" />
+                        <Button x:Name="btn_requestMyData" Style="{StaticResource normalButton}" Margin="0,0,0,41" Content="Meine Daten anfordern" FontSize="12" HorizontalAlignment="Center" Width="124" Height="26" VerticalAlignment="Bottom" />
+                        <Button x:Name="btn_removeAccount_Copy" Style="{StaticResource normalButton}" Margin="0,0,0,10" Content="Account löschen" FontSize="12" HorizontalAlignment="Center" Width="100" Height="26" VerticalAlignment="Bottom" />
+                    </Grid>
+                </Border>
                 <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden">
                     <Grid>
                         <TextBlock Text="Account-Informationen" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" />
@@ -99,7 +101,7 @@
                     <EventTrigger RoutedEvent="CheckBox.Checked">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="1" To="0.98" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="1" To="0.95" Duration="0:0:0.1" />
                                 <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="1" To="0.98" Duration="0:0:0.1" />
                                 <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" To="25" From="0" Duration="0:0:0.1" />
                             </Storyboard>
@@ -108,7 +110,7 @@
                     <EventTrigger RoutedEvent="CheckBox.Unchecked">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1" From="0.98" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1" From="0.95" Duration="0:0:0.1" />
                                 <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="1" From="0.98" Duration="0:0:0.1" />
                                 <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" From="25" To="0" Duration="0:0:0.05" />
                             </Storyboard>

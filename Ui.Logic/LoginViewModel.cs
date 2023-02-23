@@ -46,6 +46,8 @@ namespace Ui.Logic.ViewModel {
             });
         }
 
+        private string _Password;
+        public string Password { get { return _Password; } set { _Password = value; RaisePropertyChanged(); } }
 
         private bool _blurActivate { get; set; }
         public bool blurActivate { get { return _blurActivate; } set { _blurActivate = value; RaisePropertyChanged(); } }

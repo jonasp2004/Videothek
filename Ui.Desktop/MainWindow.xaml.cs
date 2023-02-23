@@ -1,16 +1,21 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using Ui.Desktop.Frames;
 using Ui.Desktop.Windows;
+using Ui.Logic.ViewModel;
 
 namespace Ui.Desktop {
 
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            NavigateTo();
+            Messenger.Default.Register<NavigationMessage>(this, msg => {
+                NavigateTo(msg.Page);
+            });
         }
 
         public MainWindow Delegate { get; set; }
@@ -30,7 +35,7 @@ namespace Ui.Desktop {
         }
 
         // Roter Button-Verhalten
-        private async void ell_closeWindow_MouseUp(object sender, MouseButtonEventArgs e) { await Timer(150); Environment.Exit(0); }
+        private async void ell_closeWindow_MouseUp(object sender, MouseButtonEventArgs e) { await Timer(200); Environment.Exit(0); }
 
         // Gelber Button-Verhalten
         private void ell_minimizeWindow_MouseUp(object sender, MouseButtonEventArgs e) { this.WindowState = WindowState.Minimized; }
@@ -49,59 +54,15 @@ namespace Ui.Desktop {
         }
 
         // Fenster öffnen
-        private void mi_about_Click(object sender, RoutedEventArgs e) {
-            About about =new About();
-            about.Show();
-        }
-
-        private void mi_manageUsers_Click(object sender, RoutedEventArgs e) {
-            UserManagement user = new UserManagement();
-            user.Show();
-        }
 
         private void mi_search_Click(object sender, RoutedEventArgs e) {
             Search search = new Search();
             search.Show();
         }
 
-        private void mi_manageMedia_Click(object sender, RoutedEventArgs e) {
-            MediaManagement media = new MediaManagement();
-            media.Show();
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e) {
-            Login login = new Login();
-            login.ShowDialog();
-            MainPageLoggedIn mainPageLoggedIn= new MainPageLoggedIn();
-            fr_Main.Content = mainPageLoggedIn;
-            grd_loggedIn.Visibility = Visibility.Visible;
-            grd_loggedOut.Visibility = Visibility.Collapsed;
-            loggedIn = true;
-        }
-
-        private void mi_logout_Click(object sender, RoutedEventArgs e) {
-            Logout logout = new Logout();
-            logout.ShowDialog();
-            MainPage mainPage = new MainPage();
-            fr_Main.Content = mainPage;
-            grd_loggedIn.Visibility = Visibility.Collapsed;
-            grd_loggedOut.Visibility = Visibility.Visible;
-            loggedIn = false;
-        }
-
-        private void btn_register_Click(object sender, RoutedEventArgs e) {
-            Register register = new Register();
-            register.ShowDialog();
-        }
-
         private void btn_myAccount_Click(object sender, RoutedEventArgs e) {
             AccountWindow account = new AccountWindow();
             account.ShowDialog();
-        }
-
-        private void mi_alleMedien_Click(object sender, RoutedEventArgs e) {
-            Offerings offers = new Offerings();
-            fr_Main.Content = offers;
         }
 
         private void mi_start_Click(object sender, RoutedEventArgs e) {
@@ -128,9 +89,63 @@ namespace Ui.Desktop {
             }
         }
 
-        private void mi_update_Click(object sender, RoutedEventArgs e) {
-            Updater update = new Updater();
-            update.Show();
+        private async void cb_updateAvailable_Loaded(object sender, RoutedEventArgs e) {
+            await Timer(5000);
+            cb_updateAvailable.IsChecked = false;
+        }
+
+        private void NavigateTo(string page = null) {
+            switch (page) {
+                case "about":
+                    About about = new About();
+                    about.ShowDialog();
+                    break;
+                case "updater":
+                    Updater update = new Updater();
+                    update.ShowDialog();
+                    break;
+                case "usermanager":
+                    UserManagement usrmgmnt = new UserManagement();
+                    usrmgmnt.ShowDialog();
+                    break;
+                case "mediamanager":
+                    MediaManagement mediamgmnt = new MediaManagement();
+                    mediamgmnt.ShowDialog();
+                    break;
+                case "login":
+                    Login login = new Login();
+                    login.ShowDialog();
+                    MainPageLoggedIn mainPageLoggedIn = new MainPageLoggedIn();
+                    fr_Main.Content = mainPageLoggedIn;
+                    grd_loggedIn.Visibility = Visibility.Visible;
+                    grd_loggedOut.Visibility = Visibility.Collapsed;
+                    loggedIn = true;
+                    break;
+                case "logout":
+                    Logout logout = new Logout();
+                    logout.ShowDialog();
+                    MainPage mainPage = new MainPage();
+                    fr_Main.Content = mainPage;
+                    grd_loggedIn.Visibility = Visibility.Collapsed;
+                    grd_loggedOut.Visibility = Visibility.Visible;
+                    loggedIn = false;
+                    break;
+                case "register":
+                    Register register = new Register();
+                    register.ShowDialog();
+                    break;
+                case "alleArtikel":
+                    Offerings offers = new Offerings(loggedIn);
+                    fr_Main.Content = offers;
+                    break;
+                default:
+                    if (loggedIn) {
+                        fr_Main.Content = new MainPageLoggedIn();
+                    } else {
+                        fr_Main.Content = new MainPage();
+                    }
+                    break;
+            }
         }
     }
 }

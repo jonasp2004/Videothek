@@ -1,8 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Ui.Logic.ViewModel;
 
 namespace Ui.Desktop.Windows {
 
@@ -43,6 +45,10 @@ namespace Ui.Desktop.Windows {
         private async void CheckBox_Unchecked(object sender, RoutedEventArgs e) {
             await Timer(200);
             this.Close();
+        }
+
+        private void txt_password_PasswordChanged(object sender, RoutedEventArgs e) {
+            (this.DataContext as LoginViewModel).Password = ((PasswordBox)sender).Password;
         }
     }
 }
