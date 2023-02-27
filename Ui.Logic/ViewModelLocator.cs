@@ -43,6 +43,7 @@ namespace Ui.Logic.ViewModel {
             SimpleIoc.Default.Register<OfferingsViewModel>();
             SimpleIoc.Default.Register<MyContentsViewModel>();
             SimpleIoc.Default.Register<UpdateViewModel>();
+            SimpleIoc.Default.Register<CurrentArticleViewModel>();
         }
         
         public MainViewModel Main {
@@ -99,10 +100,16 @@ namespace Ui.Logic.ViewModel {
             }
         }
 
-
+        
         public UpdateViewModel Update {
             get {
                 return ServiceLocator.Current.GetInstance<UpdateViewModel>();
+            }
+        }
+
+        public CurrentArticleViewModel CurrView {
+            get {
+                return ServiceLocator.Current.GetInstance<CurrentArticleViewModel>();
             }
         }
 

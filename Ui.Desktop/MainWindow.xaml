@@ -104,7 +104,7 @@
             <Frame x:Name="fr_Main" Source="/Frames/MainPage.xaml" Margin="0,60,0,0" NavigationUIVisibility="Hidden"/>
 
             <!-- "Ein Update ist verfügbar"-Banner -->
-            <Border x:Name="brdr_updateBanner" Height="86" VerticalAlignment="Bottom" HorizontalAlignment="Right" CornerRadius="2" Width="332" Margin="0,0,10,10" Background="#FFCCCCCC" RenderTransformOrigin="0.5,0.5" Opacity="10">
+            <Border x:Name="brdr_updateBanner" Opacity="0.1" Height="86" VerticalAlignment="Bottom" HorizontalAlignment="Right" CornerRadius="2" Width="332" Margin="0,0,10,10" Background="#FFCCCCCC" RenderTransformOrigin="0.5,0.5">
                 <Border.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -118,7 +118,7 @@
                 </Border.Effect>
                 <Grid>
                     <TextBlock Text="Ein Update ist Verfügbar!" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" />
-                    <CheckBox x:Name="cb_updateAvailable" Content="Ausblenden" IsChecked="True" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,12,10,0" FontSize="13" Loaded="cb_updateAvailable_Loaded" >
+                    <CheckBox x:Name="cb_updateAvailable" IsChecked="{Binding IsUpdatePopupHidden}" Content="Ausblenden" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,12,10,0" FontSize="13" >
                         <CheckBox.Triggers>
                             <EventTrigger RoutedEvent="CheckBox.Checked">
                                 <BeginStoryboard>
@@ -140,6 +140,7 @@
                     </CheckBox>
                     <TextBlock FontSize="12" Text="Vielleicht gibt es neue Funktionen oder Fehlerbehebungen." HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
                     <Button Style="{StaticResource blueButton}" Content="Updater öffnen" Margin="242,56,8,8" FontSize="12" Command="{Binding ShowUpdater}" />
+                    <TextBlock x:Name="txt_currVersion" FontSize="10" Text="{Binding CurrentAppVersion}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Foreground="#FF6D6D6D"/>
                 </Grid>
             </Border>
 

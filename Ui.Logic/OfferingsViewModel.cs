@@ -1,7 +1,10 @@
+using DocumentFormat.OpenXml.Office2021.DocumentTasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -17,20 +20,15 @@ namespace Ui.Logic.ViewModel {
                 WindowTitle = "Alle Inhalte";
             }
 
-            // Bereite Beispieldaten auf
+            BorderVisibility = Visibility.Collapsed;
+            IsWindowBlurred = false;
 
             media = new ObservableCollection<MediaList>();
-            media.Add(new MediaList(1, "Test 1", 11, 5, "DVD"));
-            media.Add(new MediaList(2, "Test 2", 11, 9, "DVD"));
-            media.Add(new MediaList(3, "Test 3", 11, 12, "Blu-Ray"));
-            media.Add(new MediaList(4, "Test: Die komplette remastered Trilogie", 11, 19, "Blu-Ray"));
-            media.Add(new MediaList(5, "TSBW-Simulator 2022: Der Ausbildungsstart", 13, 666, "Videospiel"));
-            media.Add(new MediaList(5, "TSBW-Simulator 2021: Die BVB", 10, 5, "Videospiel"));
-            media.Add(new MediaList(6, "Cooking Linda: Die Schnitzeljagd", 2, 4, "Videospiel"));
-            media.Add(new MediaList(7, "Hello World-Programme für Dummies", 2, 10, "Buch"));
-            media.Add(new MediaList(8, "Das ultimative Curry-Kochbuch", 1, 9999, "Buch"));
-            media.Add(new MediaList(9, "AJs Workouts am Grill", 6, 23, "Buch"));
-            media.Add(new MediaList(10, "Tolle Musik-Collection", 12, 6, "Musik-CD"));
+
+            foreach(var medium in GetData(0, mediaListing)) {
+                media.Add(new MediaList(medium.Id, medium.Title, medium.Amount, medium.LeasePrice, medium.Category));
+            }
+
 
             ComboBoxSelection = 0;
         }
@@ -54,7 +52,107 @@ namespace Ui.Logic.ViewModel {
             public string Preis { get; set; }
         }
 
+
+        private Visibility _BorderVisibility { get; set; }
+        public Visibility BorderVisibility { get { return _BorderVisibility; } set { _BorderVisibility = value; RaisePropertyChanged(); } }
+        private bool _IsWindowBlurred { get; set; }
+        public bool IsWindowBlurred { get { return _IsWindowBlurred; } set { _IsWindowBlurred = value; RaisePropertyChanged(); } }
         private int _ComboBoxSelection { get; set; }
         public int ComboBoxSelection { get { return _ComboBoxSelection; } set { _ComboBoxSelection = value; RaisePropertyChanged(); } }
-    }
+
+        private ICommand _ComboBoxCategorySelected;
+        public ICommand ComboBoxCategorySelected {
+            get {
+                if (_ComboBoxCategorySelected == null) {
+                    _ComboBoxCategorySelected = new RelayCommand(() => {
+                        GetItemsByCategory(ComboBoxSelection);
+                    });
+                }
+                return _ComboBoxCategorySelected;
+            }
+        }
+
+        internal List<Medium> mediaListing = new List<Medium>();
+        private async void GetItemsByCategory(int SelectedIndex) {
+            try {
+                BorderVisibility = Visibility.Visible;
+                IsWindowBlurred = true;
+                int selection = ComboBoxSelection;
+                media.Clear();
+                mediaListing.Clear();
+                await System.Threading.Tasks.Task.Run(() => {
+                    GetData(selection, mediaListing);
+                });
+                foreach (var medium in mediaListing) {
+                    media.Add(new MediaList(medium.Id, medium.Title, medium.Amount, medium.LeasePrice, medium.Category));
+                }
+                IsWindowBlurred = false;
+                BorderVisibility = Visibility.Collapsed;
+            } catch {
+                MessageBox.Show("Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung und versuche es erneut!", "Upsi!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private List<Medium> GetData(int selection, List<Medium> mediaListing) {
+            using (videothek_development db = new videothek_development()) {
+                    var query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId });
+                    int tempCategoryInt = 0;
+                    switch (selection) {
+                        case 1:
+                            query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId }).Where(o => o.CategoryId.Equals(2));
+                            tempCategoryInt = 2;
+                            break;
+                        case 2:
+                            query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId }).Where(o => o.CategoryId.Equals(3));
+                            tempCategoryInt = 3;
+                            break;
+                        case 3:
+                            query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId }).Where(o => o.CategoryId.Equals(4));
+                            tempCategoryInt = 4;
+                            break;
+                        case 4:
+                            query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId }).Where(o => o.CategoryId.Equals(5));
+                            tempCategoryInt = 5;
+                            break;
+                        case 5:
+                            query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId }).Where(o => o.CategoryId.Equals(6));
+                            tempCategoryInt = 6;
+                            break;
+                        case 6:
+                            query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId }).Where(o => o.CategoryId.Equals(7));
+                            tempCategoryInt = 7;
+                            break;
+                    }
+                if (selection == 0) {
+                    foreach (var item in query) {
+                        mediaListing.Add(new Medium() {
+                            Id = Convert.ToInt32(item.ArticleId),
+                            Title = item.Name,
+                            Amount = Convert.ToInt32(item.Amount),
+                            LeasePrice = Convert.ToInt32(item.LeasePrice),
+                            Category = db.Category
+                                .Where(c => c.CategoryId.Equals(item.CategoryId))
+                                .Select(c => c.Name)
+                                .SingleOrDefault()
+                        });
+                    }
+                } else {
+                    foreach (var item in query) {
+                        mediaListing.Add(new Medium() {
+                            Id = Convert.ToInt32(item.ArticleId),
+                            Title = item.Name,
+                            Amount = Convert.ToInt32(item.Amount),
+                            LeasePrice = Convert.ToInt32(item.LeasePrice),
+                            Category = db.Category
+                                .Where(c => c.CategoryId.Equals(tempCategoryInt))
+                                .Select(c => c.Name)
+                                .SingleOrDefault()
+                        });
+                    }
+                }
+                    
+            }
+            return mediaListing;
+        }
+    } 
 }

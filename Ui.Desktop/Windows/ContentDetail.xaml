@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ui.Desktop.Windows"
         mc:Ignorable="d"
-        Title="Details über gewählten Inhalt" Height="425" Width="595" MinHeight="425" MinWidth="595" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True"
-        DataContext="{Binding Offers, Source={StaticResource Locator}}" FontFamily="{StaticResource EncodeSans}" FontSize="16" ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" SizeChanged="Window_SizeChanged">
+        Title="{Binding WindowTitle}" Height="425" Width="595" MinHeight="425" MinWidth="595" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}" AllowsTransparency="True"
+        DataContext="{Binding CurrView, Source={StaticResource Locator}}" FontFamily="{StaticResource EncodeSans}" FontSize="16" ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" SizeChanged="Window_SizeChanged">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -57,7 +57,7 @@
                     <ImageBrush ImageSource="/UIElements/window_titlebar.png"/>
                 </Border.Background>
                 <Grid>
-                    <TextBlock x:Name="windowTitle" Text="Details über gewählten Inhalt" TextAlignment="Center" Padding="0,4,0,0" MouseDown="windowTitle_MouseDown" />
+                    <TextBlock x:Name="windowTitle" Text="{Binding WindowTitle}" TextAlignment="Center" Padding="0,4,0,0" MouseDown="windowTitle_MouseDown" />
                     <Grid Margin="6,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17">
                         <Ellipse x:Name="ell_closeWindow" Fill="Red" Stroke="DarkRed" MouseDown="ell_closeWindow_MouseDown" MouseEnter="ell_closeWindow_MouseEnter" MouseLeave="ell_closeWindow_MouseLeave" />
                         <Grid.Triggers>
@@ -75,35 +75,13 @@
             <ScrollViewer x:Name="scr_textScroll" Margin="10,40,1,2" ScrollChanged="ScrollViewer_ScrollChanged" PanningMode="VerticalOnly" PanningRatio="0.1">
                 <StackPanel ScrollViewer.CanContentScroll="False">
                     <Grid Height="57" Margin="0,140,0,0">
-                        <TextBlock x:Name="txt_articleNbr" Text="Artikelnummer" FontSize="12" Foreground="Gray" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,0,0,0" />
-                        <TextBlock x:Name="txt_price" Text="PR€IS" FontFamily="{StaticResource EncodeSansBlack}" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,121,0" Foreground="#FF874CB4" TextAlignment="Right" />
+                        <TextBlock x:Name="txt_articleNbr" Text="{Binding Artikelnummer}" FontSize="12" Foreground="Gray" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,0,0,0" />
+                        <TextBlock x:Name="txt_price" Text="{Binding Artikelpreis}" FontFamily="{StaticResource EncodeSansBlack}" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,121,0" Foreground="#FF874CB4" TextAlignment="Right" />
                         <TextBlock Text="/ Auleihe, Verlängerung separat erhältllich&#10;Preise inkl. MwSt." FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,27,121,0" Foreground="#FF311B92" FontWeight="Bold" TextAlignment="Right" />
                     </Grid>
                     <TextBlock x:Name="txt_rentalWarning" Text="Bitte melde dich zuerst an, bevor du eine Ausleihe startest!" Foreground="Red" Margin="5,10,0,10" />
                     <TextBlock Text="Beschreibung:" FontFamily="{StaticResource EncodeSansBlack}" Margin="5,0,0,0" />
-                    <TextBlock Text="Brokkoli-Kampf ist ein rasantes Action-Videospiel, in dem der Spieler in die Rolle eines tapferen Gemüsekämpfers schlüpft, der sich gegen eine Invasion von fiesen Fleischfressern verteidigt. Mit einem Arsenal von Brokkoli-basierten Waffen und Fähigkeiten, muss der Spieler seinen Weg durch immer schwieriger werdende Levels kämpfen, um das Gemüsereich zu verteidigen. Das Spiel bietet eine lustige und farbenfrohe Grafik, schnelle und herausfordernde Action sowie eine Menge Brokkoli-haltiger Power-Ups, die den Spieler auf seinem Weg zum Sieg unterstützen.&#10;&#10;
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur 
-fugiat, temporibus enim commodi iusto libero magni deleniti quod quam 
-consequuntur! Commodi minima excepturi repudiandae velit hic maxime
-doloremque. Quaerat provident commodi consectetur veniam similique ad 
-earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo 
-fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore 
-suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium
-modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam 
-totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam 
-quasi aliquam eligendi, placeat qui corporis!
-                               " TextWrapping="Wrap" Margin="5,0,5,30" Height="541" />
+                    <TextBlock Text="{Binding Artikelbeschreibung}" TextWrapping="Wrap" Margin="5,0,5,30" />
                 </StackPanel>
             </ScrollViewer>
             <Border CornerRadius="0,0,0,4" Height="31" VerticalAlignment="Bottom" Margin="0,0,20,0" >

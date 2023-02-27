@@ -125,6 +125,7 @@
     <Compile Include="PasswordArchive.cs">
       <DependentUpon>Datenbankmodell.tt</DependentUpon>
     </Compile>
+    <Compile Include="CurrentArticle.cs" />
     <Compile Include="UpdateViewModel.cs" />
     <Compile Include="MyContentsViewModel.cs" />
     <Compile Include="OfferingsViewModel.cs" />

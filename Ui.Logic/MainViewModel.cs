@@ -1,4 +1,5 @@
 using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2016.Drawing.Charts;
 using DocumentFormat.OpenXml.Office2021.DocumentTasks;
@@ -29,16 +30,44 @@ namespace Ui.Logic.ViewModel {
                 WindowTitle = "Videothek";
             }
 
+            IsUpdatePopupHidden = true;
+            CurrentAppVersion = "1.0";
+
             Service service = new Service();
             media = new ObservableCollection<MediaList>();
             foreach (var item in service.getAllMedia()) {
                 media.Add(new MediaList(item.Id, item.Title, item.LeasePrice, item.Amount, item.Category.ToString()));
             }
+
+            SearchForUpdates();
             
 
             UserName = "@benutzerName2023";
             FullName = "Benutzer Name";
         }
+
+        private async void SearchForUpdates() {
+            await System.Threading.Tasks.Task.Delay(3000);
+            await System.Threading.Tasks.Task.Run(() => {
+                using (videothek_development db = new videothek_development()) {
+                    try { 
+                        var query = db.AppUpdates.Where(f => f.Channel == 0).OrderByDescending(u => u.VersionId).FirstOrDefault();
+                        if (query != null) {
+                            if(query.Version.Replace(" ", "") != CurrentAppVersion) {
+                                IsUpdatePopupHidden = false;
+                            }
+                        }
+                    } catch (Exception ex)  { MessageBox.Show(ex.Message); }
+
+                }
+            });
+        }
+
+        private string _CurrentAppVersion { get; set; }
+        public string CurrentAppVersion { get { return _CurrentAppVersion; } set { _CurrentAppVersion = value; RaisePropertyChanged(); } }
+        private bool _IsUpdatePopupHidden { get; set; }
+        public bool IsUpdatePopupHidden { get { return _IsUpdatePopupHidden; } set { _IsUpdatePopupHidden = value; RaisePropertyChanged(); } }
+
 
         private List<string> _MediaSelection { get; set; }
         public List<string> MediaSelection { get { return _MediaSelection; } set { _MediaSelection = value; RaisePropertyChanged(); } }

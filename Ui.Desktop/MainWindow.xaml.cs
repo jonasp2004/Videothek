@@ -16,6 +16,7 @@ namespace Ui.Desktop {
             Messenger.Default.Register<NavigationMessage>(this, msg => {
                 NavigateTo(msg.Page);
             });
+            txt_currVersion.Text = Properties.Settings.Default.thisVersion;
         }
 
         public MainWindow Delegate { get; set; }
@@ -56,8 +57,8 @@ namespace Ui.Desktop {
         // Fenster öffnen
 
         private void mi_search_Click(object sender, RoutedEventArgs e) {
-            Search search = new Search();
-            search.Show();
+            Search search = new Search(loggedIn);
+            search.ShowDialog();
         }
 
         private void btn_myAccount_Click(object sender, RoutedEventArgs e) {
@@ -87,11 +88,6 @@ namespace Ui.Desktop {
                 grd_loggedOut.Visibility = Visibility.Collapsed;
                 loggedIn = true;
             }
-        }
-
-        private async void cb_updateAvailable_Loaded(object sender, RoutedEventArgs e) {
-            await Timer(5000);
-            cb_updateAvailable.IsChecked = false;
         }
 
         private void NavigateTo(string page = null) {

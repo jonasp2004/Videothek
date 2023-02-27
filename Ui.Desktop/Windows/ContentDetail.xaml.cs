@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Ui.Logic.ViewModel;
 
 namespace Ui.Desktop.Windows {
 
@@ -9,6 +10,9 @@ namespace Ui.Desktop.Windows {
         public ContentDetail(string id, string itemName, string price, bool loggedIn) {
             InitializeComponent();
             txt_articleNbr.Text = "Art.-Nummer: " + id;
+            ((CurrentArticleViewModel)(this.DataContext)).Artikelnummer = id;
+            ((CurrentArticleViewModel)(this.DataContext)).FetchData();
+
             txt_titleBarText.Text = itemName;
             txt_price.Text = price;
             if(!loggedIn) {
@@ -18,6 +22,12 @@ namespace Ui.Desktop.Windows {
                 txt_rentalWarning.Visibility = Visibility.Collapsed;
                 btn_orderRental.IsEnabled = true;
             }
+
+        }
+
+        public async void SetArticleNumber(string text) {
+            await Task.Delay(500);
+            txt_articleNbr.Text = text;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
