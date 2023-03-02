@@ -92,7 +92,7 @@
                     <MenuItem Header="Anmelden" Command="{Binding ShowLogin}" />
                     <MenuItem x:Name="mi_logout" Header="Abmelden" Command="{Binding ShowLogo}" />
                 </MenuItem>
-                <MenuItem Header="Verwaltung">
+                <MenuItem x:Name="mi_management" Header="Verwaltung" Visibility="Collapsed" IsEnabled="False">
                     <MenuItem Header="Benutzer verwalten" Command="{Binding ShowUserManager}" />
                     <MenuItem Header="Medien verwalten" Command="{Binding ShowMediaManager}" />
                 </MenuItem>
@@ -143,7 +143,8 @@
                     <TextBlock x:Name="txt_currVersion" FontSize="10" Text="{Binding CurrentAppVersion}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Foreground="#FF6D6D6D"/>
                 </Grid>
             </Border>
-
+            
+            <!-- Account-Popup -->
             <Border Margin="0,9,13,0" Background="#FFE2E2E2" CornerRadius="3" RenderTransformOrigin="0.625,0.143" Height="123" VerticalAlignment="Top" HorizontalAlignment="Right" Width="227">
                 <Border.RenderTransform>
                     <TransformGroup>
@@ -177,12 +178,31 @@
                     <EventTrigger RoutedEvent="Button.Click">
                         <BeginStoryboard>
                             <Storyboard>
+
+
                                 <DoubleAnimation Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="0" From="1" Duration="0:0:0.1" />
                                 <DoubleAnimation Storyboard.TargetName="flyoutTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.1" />
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
                 </Border.Triggers>
+            </Border>
+
+            <!--  Du scheinst Offline zu sein!-Banner -->
+            <Border x:Name="grd_noInternet" Background="#B2000000" CornerRadius="4" Visibility="{Binding YouAreOffline, Mode=OneWay}">
+                <Border CornerRadius="10" BorderThickness="1" Width="350" Height="204" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Red" Background="#FFD8D8D8">
+                    <Border.Effect>
+                        <DropShadowEffect Direction="270" BlurRadius="50" ShadowDepth="1" Color="DarkOrange" />
+                    </Border.Effect>
+                    <Grid>
+                        <Image Source="/Images/no_internet.png" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24" Width="24" Margin="20,20,0,0" />
+                        <TextBlock FontFamily="{StaticResource EncodeSansBlack}" Text="Du scheinst offline zu sein!" FontSize="24" VerticalAlignment="Top" Margin="54,17,0,0" TextAlignment="Center" HorizontalAlignment="Left"/>
+                        <TextBlock Text="Zumindest konnten wir keine Verbindung zum Server aufbauen. Versuche es später vielleicht noch einmal!" VerticalAlignment="Top" TextWrapping="Wrap" Margin="10,52,10,0" TextAlignment="Center"/>
+                        <TextBlock Text="Wir raten derzeit von der Nutzung dieser App ab." VerticalAlignment="Top" TextWrapping="Wrap" Margin="10,117,10,0" TextAlignment="Center"/>
+                        <Button x:Name="btn_hideNoInternet" Style="{StaticResource normalButton}" Command="{Binding HideOfflineField}" Content="Ausblenden" Margin="0,0,150,5" Height="36" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="92" Click="btn_hideNoInternet_Click" />
+                        <Button x:Name="btn_endProgram" Style="{StaticResource blueButton}" Content="Programm beenden" Margin="0,0,5,5" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="140" Click="btn_endProgram_Click" />
+                    </Grid>
+                </Border>
             </Border>
         </Grid>
         <Border.Triggers>

@@ -1,0 +1,79 @@
+﻿<Page x:Class="Ui.Desktop.Frames.PaymentMethodManager"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Ui.Desktop.Frames"
+      mc:Ignorable="d" FontFamily="{StaticResource EncodeSans}" FontSize="16"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Bezahlmethoden-Manager">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\UI_Elements.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Border Margin="10" Background="#A5FFFFFF" CornerRadius="10">
+        <Grid>
+            <Grid Margin="10,10,10,10">
+                <Grid x:Name="grd_sideBar" HorizontalAlignment="Left" Width="50">
+                    <ToggleButton Style="{StaticResource normalToggleButton}" Margin="7,80,0,0" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="36">
+                        <Image Source="/Images/menu_24dp.png" Height="24" Width="24"  />
+                        <ToggleButton.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="grd_sideBar" Storyboard.TargetProperty="Width" From="50" To="200" Duration="0:0:0.1" />
+                                        <ThicknessAnimation Storyboard.TargetName="brdr_main" Storyboard.TargetProperty="Margin" From="55,80,0,0" To="205,80,0,0" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="grd_sideBar" Storyboard.TargetProperty="Width" From="200" To="50" Duration="0:0:0.1" />
+                                        <ThicknessAnimation Storyboard.TargetName="brdr_main" Storyboard.TargetProperty="Margin" From="205,80,0,0" To="55,80,0,0" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ToggleButton.Triggers>
+                    </ToggleButton>
+                    <TextBlock Text="Bezahlmethoden-Manager" FontFamily="{StaticResource EncodeSansBlack}" FontSize="24" VerticalAlignment="Top" Margin="10,10,-261,0" Height="30" />
+                    <TextBlock Text="Verwalte hier deine Bezahl-Daten. Sie werden sicher bei uns gespeichert." VerticalAlignment="Top" Margin="10,40,-414,0" Height="20" />
+                    <TextBlock Text="Verfügbare&#10;Zahlungsabwickler" FontFamily="{StaticResource EncodeSansBlack}" FontSize="18" VerticalAlignment="Top" Margin="52,74,0,0" Height="46" />
+                    <TextBlock Text="Sofort-Überweisung und das zugehörige Logo sind eingetragene Handelsmarken der Sofort-GmbH." TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="12" Margin="0,0,0,50" Height="45" Width="190"/>
+                    <TextBlock Text="PayPal und das zugehörige Logo sind eingetragene Handelsmarken der PayPal Holdings, Inc. ." TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="12" Height="45" Width="190"/>
+                    <Button Style="{StaticResource normalButton}" Margin="7,130,7,0" Height="35" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                            <Image Source="/Images/credit_card_24dp.png" Height="24" Width="24" Margin="0,0,5,0" />
+                            <Label Content="Kreditkarte" />
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource normalButton}" Margin="7,170,7,0" Height="35" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                            <Image Source="/Images/sofortueberweisung.png" Height="24" Width="24" />
+                            <Label Content="Sofortüberweisung" />
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource normalButton}" Margin="7,210,7,0" Height="35" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                            <Image Source="/Images/paypal.png" Height="24" Width="24" Margin="0,0,10,0" />
+                            <Label Content="PayPal" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+
+                <Border x:Name="brdr_main" Background="#7F000000" Margin="55,80,0,0" CornerRadius="5">
+                    <Grid>
+                        <TextBlock Text="Deine Bezahl-Daten" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Margin="10,10,0,0" Foreground="White" />
+                        <TextBlock Text="Mehr wissen wir dazu nicht." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,35,0,0" Foreground="White" />
+                    </Grid>
+                </Border>
+
+                <Image x:Name="img_lock" Source="/Images/lock_18dp.png" Height="18" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" Margin="0,31,80,0" Width="18" />
+                <Ellipse x:Name="ell_closeFrame" DataContext="{Binding Payment, Source={StaticResource Locator}}" Style="{StaticResource redEllipse}" Margin="0,31,31,0" Grid.Column="1" HorizontalAlignment="Right" Width="17" Height="17" VerticalAlignment="Top" MouseDown="ell_closeFrame_MouseDown"  />
+            </Grid>
+        </Grid>
+    </Border>
+</Page>

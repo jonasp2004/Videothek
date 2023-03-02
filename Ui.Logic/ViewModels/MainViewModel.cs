@@ -1,21 +1,12 @@
-using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.InkML;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Office2016.Drawing.Charts;
-using DocumentFormat.OpenXml.Office2021.DocumentTasks;
-using DocumentFormat.OpenXml.Presentation;
-using DocumentFormat.OpenXml.Spreadsheet;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Common;
 using System.Data.Entity;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace Ui.Logic.ViewModel {
@@ -30,20 +21,42 @@ namespace Ui.Logic.ViewModel {
                 WindowTitle = "Videothek";
             }
 
+            YouAreOffline = Visibility.Collapsed;
             IsUpdatePopupHidden = true;
             CurrentAppVersion = "1.0";
-
-            Service service = new Service();
-            media = new ObservableCollection<MediaList>();
-            foreach (var item in service.getAllMedia()) {
-                media.Add(new MediaList(item.Id, item.Title, item.LeasePrice, item.Amount, item.Category.ToString()));
+            try {
+                Service service = new Service();
+                media = new ObservableCollection<MediaList>();
+                foreach (var item in service.getAllMedia()) {
+                    media.Add(new MediaList(item.Id, item.Title, item.LeasePrice, item.Amount, item.Category.ToString()));
+                }
+            } catch (Exception ex) {
+                MessageBox.Show("Es ist ein Fehler beim Abrufen der Daten aufgetreten.\n\n" + ex.Message, "Upsi!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            
 
             SearchForUpdates();
             
 
             UserName = "@benutzerName2023";
             FullName = "Benutzer Name";
+        }
+
+
+        private Visibility _YouAreOffline { get; set; }
+        public Visibility YouAreOffline { get { return _YouAreOffline; } set { _YouAreOffline = value; RaisePropertyChanged(); } }
+
+
+        private ICommand _HideOfflineField;
+        public ICommand HideOfflineField {
+            get {
+                if (_HideOfflineField == null) {
+                    _HideOfflineField = new RelayCommand(() => {
+                        YouAreOffline = Visibility.Collapsed;
+                    });
+                }
+                return _HideOfflineField;
+            }
         }
 
         private async void SearchForUpdates() {
@@ -57,7 +70,9 @@ namespace Ui.Logic.ViewModel {
                                 IsUpdatePopupHidden = false;
                             }
                         }
-                    } catch (Exception ex)  { MessageBox.Show(ex.Message); }
+                    } catch {
+                        YouAreOffline = Visibility.Visible;
+                    }
 
                 }
             });

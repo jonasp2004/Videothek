@@ -32,5 +32,6 @@ namespace Ui.Logic
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<PasswordArchive> PasswordArchive { get; set; }
         public virtual DbSet<UserAccount> UserAccount { get; set; }
+        public virtual DbSet<PaymentMethods> PaymentMethods { get; set; }
     }
 }

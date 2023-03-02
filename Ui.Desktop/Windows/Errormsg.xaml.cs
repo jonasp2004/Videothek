@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -7,8 +6,9 @@ using System.Windows.Media;
 namespace Ui.Desktop.Windows {
 
     public partial class Errormsg : Window {
-        public Errormsg() {
+        public Errormsg(string error) {
             InitializeComponent();
+            txt_error.Text = error;
         }
 
         private void btn_copyToClipboard_Click(object sender, RoutedEventArgs e) {

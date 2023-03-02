@@ -4,15 +4,15 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="videothek_developmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="videothek_developmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AppUpdates">
           <Key>
             <PropertyRef Name="VersionId" />
           </Key>
           <Property Name="VersionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Version" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="Version" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="PatchNotes" Type="text" Nullable="false" />
-          <Property Name="EXE_Name" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="EXE_Name" Type="text" Nullable="false" />
           <Property Name="ReleaseDate" Type="date" Nullable="false" />
           <Property Name="Channel" Type="int" />
         </EntityType>
@@ -66,6 +66,19 @@
           <Property Name="CreateDate" Type="date" Nullable="false" />
           <Property Name="DeactivationDate" Type="date" />
         </EntityType>
+        <EntityType Name="PaymentMethods">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="MethodName" Type="text" Nullable="false" />
+          <Property Name="PaypalUserId" Type="text" />
+          <Property Name="CrCardNumber" Type="bigint" />
+          <Property Name="CrCardChecksum" Type="int" />
+          <Property Name="CrCardExpDate" Type="date" />
+          <Property Name="SoUeberweisungId" Type="int" />
+        </EntityType>
         <EntityType Name="UserAccount">
           <Key>
             <PropertyRef Name="AccountId" />
@@ -73,9 +86,10 @@
           <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerId" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nchar" MaxLength="24" Nullable="false" />
-          <Property Name="Email" Type="nchar" MaxLength="120" Nullable="false" />
-          <Property Name="Password" Type="nchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Email" Type="nchar" MaxLength="512" Nullable="false" />
+          <Property Name="Password" Type="nchar" MaxLength="512" Nullable="false" />
           <Property Name="LastLogin" Type="date" />
+          <Property Name="IsAdmin" Type="int" />
         </EntityType>
         <EntityContainer Name="videothek_developmentModelStoreContainer">
           <EntitySet Name="AppUpdates" EntityType="Self.AppUpdates" Schema="dbo" store:Type="Tables" />
@@ -84,10 +98,10 @@
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PasswordArchive" EntityType="Self.PasswordArchive" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentMethods" EntityType="Self.PaymentMethods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="videothek_developmentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -96,9 +110,9 @@
             <PropertyRef Name="VersionId" />
           </Key>
           <Property Name="VersionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Version" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Version" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="PatchNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="EXE_Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="EXE_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Channel" Type="Int32" />
         </EntityType>
@@ -159,9 +173,10 @@
           <Property Name="AccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerId" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="24" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="120" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="1024" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="512" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="512" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="LastLogin" Type="DateTime" Precision="0" />
+          <Property Name="IsAdmin" Type="Int32" />
         </EntityType>
         <EntityContainer Name="videothek_development" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AppUpdates" EntityType="Self.AppUpdates" />
@@ -171,7 +186,21 @@
           <EntitySet Name="Customer" EntityType="Self.Customer" />
           <EntitySet Name="PasswordArchive" EntityType="Self.PasswordArchive" />
           <EntitySet Name="UserAccount" EntityType="Self.UserAccount" />
+          <EntitySet Name="PaymentMethods" EntityType="videothek_developmentModel.PaymentMethods" />
         </EntityContainer>
+        <EntityType Name="PaymentMethods">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="MethodName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PaypalUserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CrCardNumber" Type="Int64" />
+          <Property Name="CrCardChecksum" Type="Int32" />
+          <Property Name="CrCardExpDate" Type="DateTime" Precision="0" />
+          <Property Name="SoUeberweisungId" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -248,12 +277,27 @@
           <EntitySetMapping Name="UserAccount">
             <EntityTypeMapping TypeName="videothek_developmentModel.UserAccount">
               <MappingFragment StoreEntitySet="UserAccount">
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentMethods">
+            <EntityTypeMapping TypeName="videothek_developmentModel.PaymentMethods">
+              <MappingFragment StoreEntitySet="PaymentMethods">
+                <ScalarProperty Name="SoUeberweisungId" ColumnName="SoUeberweisungId" />
+                <ScalarProperty Name="CrCardExpDate" ColumnName="CrCardExpDate" />
+                <ScalarProperty Name="CrCardChecksum" ColumnName="CrCardChecksum" />
+                <ScalarProperty Name="CrCardNumber" ColumnName="CrCardNumber" />
+                <ScalarProperty Name="PaypalUserId" ColumnName="PaypalUserId" />
+                <ScalarProperty Name="MethodName" ColumnName="MethodName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

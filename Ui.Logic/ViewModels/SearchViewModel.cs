@@ -1,5 +1,3 @@
-using DocumentFormat.OpenXml.Office2010.ExcelAc;
-using DocumentFormat.OpenXml.Office2021.DocumentTasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
@@ -36,17 +34,21 @@ namespace Ui.Logic.ViewModel {
             get {
                 if (_SearchClicked == null) {
                     _SearchClicked = new RelayCommand(() => {
-                        LoadingGridVisible = Visibility.Visible;
-                        if(media == null) {
-                            ObservableCollection<MediaItem> media = new System.Collections.ObjectModel.ObservableCollection<MediaItem>();
+                        try {
+                            LoadingGridVisible = Visibility.Visible;
+                            if(media == null) {
+                                ObservableCollection<MediaItem> media = new System.Collections.ObjectModel.ObservableCollection<MediaItem>();
+                            }
+                            media.Clear();
+                            ObservableCollection<MediaItem> mediaCollection = new ObservableCollection<MediaItem>();
+                            foreach (var item in SearchFor(Anfrage, mediaCollection)) {
+                                media.Add(item);
+                            }
+                            mediaCollection.Clear();
+                            LoadingGridVisible = Visibility.Collapsed;
+                        } catch (Exception ex) {
+                            MessageBox.Show("Ein Fehler bei der Verarbeitung der Suche ist aufgetreten.\n\n" + ex.Message, "Upsi!", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
-                        media.Clear();
-                        ObservableCollection<MediaItem> mediaCollection = new ObservableCollection<MediaItem>();
-                        foreach (var item in SearchFor(Anfrage, mediaCollection)) {
-                            media.Add(item);
-                        }
-                        mediaCollection.Clear();
-                        LoadingGridVisible = Visibility.Collapsed;
                     });
                 }
                 return _SearchClicked;
@@ -71,13 +73,12 @@ namespace Ui.Logic.ViewModel {
                         Artikelnummer = artnbr,
                         Titel = item.Name,
                         Kategorie = category,
-                        Leihpreis = item.LeasePrice.ToString()
+                        Leihpreis = item.LeasePrice.ToString() + " €"
                     });
-                    }
                 }
+            }
             return mediaCol;
         }
-
 
         private ObservableCollection<MediaItem> _media;
         public ObservableCollection<MediaItem> media { get { return _media; } set { _media = value; RaisePropertyChanged(); } }
@@ -87,6 +88,5 @@ namespace Ui.Logic.ViewModel {
             public string Kategorie { get; set; }
             public string Leihpreis { get; set; }
         }
-
     }
 }

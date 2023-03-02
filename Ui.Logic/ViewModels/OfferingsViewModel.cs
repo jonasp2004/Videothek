@@ -1,4 +1,3 @@
-using DocumentFormat.OpenXml.Office2021.DocumentTasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
@@ -7,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Ui.Logic.Classes;
 
 namespace Ui.Logic.ViewModel {
 
@@ -18,19 +18,28 @@ namespace Ui.Logic.ViewModel {
                 WindowTitle = "Alle Inhalte (Designer-Ansicht)";
             } else {
                 WindowTitle = "Alle Inhalte";
+                PrepareDataInitially();
             }
-
             BorderVisibility = Visibility.Collapsed;
             IsWindowBlurred = false;
-
-            media = new ObservableCollection<MediaList>();
-
-            foreach(var medium in GetData(0, mediaListing)) {
-                media.Add(new MediaList(medium.Id, medium.Title, medium.Amount, medium.LeasePrice, medium.Category));
-            }
-
-
+            
             ComboBoxSelection = 0;
+        }
+
+
+        private List<ListItems> _ListItems;
+        public List<ListItems> ListItems { get { return _ListItems; } set { _ListItems = value; RaisePropertyChanged(); } }
+
+        public void PrepareDataInitially() {
+            ListItems = new List<ListItems>();
+            media = new ObservableCollection<MediaList>();
+                try {
+                    foreach(var medium in GetData(0, mediaListing)) {
+                        ListItems.Add(new Classes.ListItems(medium.Title, medium.Category, medium.LeasePrice.ToString() + "€", medium.Id));
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show("Ein Fehler beim Abrufen der Daten ist aufgetreten\n\n" +  ex.Message, "Upsi!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
         }
 
         private List<string> _MediaSelection { get; set; }
@@ -86,11 +95,11 @@ namespace Ui.Logic.ViewModel {
                 foreach (var medium in mediaListing) {
                     media.Add(new MediaList(medium.Id, medium.Title, medium.Amount, medium.LeasePrice, medium.Category));
                 }
-                IsWindowBlurred = false;
-                BorderVisibility = Visibility.Collapsed;
             } catch {
                 MessageBox.Show("Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung und versuche es erneut!", "Upsi!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            IsWindowBlurred = false;
+            BorderVisibility = Visibility.Collapsed;
         }
 
         private List<Medium> GetData(int selection, List<Medium> mediaListing) {
@@ -99,30 +108,34 @@ namespace Ui.Logic.ViewModel {
                     int tempCategoryInt = 0;
                     switch (selection) {
                         case 1:
+                            query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId }).Where(o => o.CategoryId.Equals(1));
+                            tempCategoryInt = 1;
+                            break;
+                        case 2:
                             query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId }).Where(o => o.CategoryId.Equals(2));
                             tempCategoryInt = 2;
                             break;
-                        case 2:
+                        case 3:
                             query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId }).Where(o => o.CategoryId.Equals(3));
                             tempCategoryInt = 3;
                             break;
-                        case 3:
+                        case 4:
                             query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId }).Where(o => o.CategoryId.Equals(4));
                             tempCategoryInt = 4;
                             break;
-                        case 4:
+                        case 5:
                             query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId }).Where(o => o.CategoryId.Equals(5));
                             tempCategoryInt = 5;
                             break;
-                        case 5:
+                        case 6:
                             query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId }).Where(o => o.CategoryId.Equals(6));
                             tempCategoryInt = 6;
                             break;
-                        case 6:
+                        case 7:
                             query = db.Article.Select(a => new { a.ArticleId, a.Name, a.Amount, a.LeasePrice, a.CategoryId }).Where(o => o.CategoryId.Equals(7));
                             tempCategoryInt = 7;
                             break;
-                    }
+                }
                 if (selection == 0) {
                     foreach (var item in query) {
                         mediaListing.Add(new Medium() {

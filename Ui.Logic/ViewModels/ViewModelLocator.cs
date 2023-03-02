@@ -44,6 +44,7 @@ namespace Ui.Logic.ViewModel {
             SimpleIoc.Default.Register<MyContentsViewModel>();
             SimpleIoc.Default.Register<UpdateViewModel>();
             SimpleIoc.Default.Register<CurrentArticleViewModel>();
+            SimpleIoc.Default.Register<PaymentViewModel>();
         }
         
         public MainViewModel Main {
@@ -113,6 +114,12 @@ namespace Ui.Logic.ViewModel {
             }
         }
 
+
+        public PaymentViewModel Payment {
+            get {
+                return ServiceLocator.Current.GetInstance<PaymentViewModel>();
+            }
+        }
         public static void Cleanup() {
             // TODO Clear the ViewModels
         }

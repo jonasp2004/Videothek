@@ -12,14 +12,15 @@ namespace Ui.Logic
     using System;
     using System.Collections.Generic;
     
-    public partial class UserAccount
+    public partial class PaymentMethods
     {
-        public int AccountId { get; set; }
-        public int CustomerId { get; set; }
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public Nullable<System.DateTime> LastLogin { get; set; }
-        public Nullable<int> IsAdmin { get; set; }
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public string MethodName { get; set; }
+        public string PaypalUserId { get; set; }
+        public Nullable<long> CrCardNumber { get; set; }
+        public Nullable<int> CrCardChecksum { get; set; }
+        public Nullable<System.DateTime> CrCardExpDate { get; set; }
+        public Nullable<int> SoUeberweisungId { get; set; }
     }
 }

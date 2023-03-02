@@ -10,9 +10,11 @@ namespace Ui.Desktop.Windows {
     public partial class Search : Window {
 
         private bool loggedIn = false;
-        public Search(bool isLoggedIn) {
+        private int Benutzernummer = -1;
+        public Search(bool isLoggedIn, int userId) {
             InitializeComponent();
             loggedIn = isLoggedIn;
+            Benutzernummer = userId;
         }
 
         private void windowTitle_MouseDown(object sender, MouseButtonEventArgs e) {
@@ -36,13 +38,12 @@ namespace Ui.Desktop.Windows {
                     TextBlock idCell = (TextBlock)dg_searchResults.SelectedCells[0].Column.GetCellContent(dg_searchResults.SelectedItem);
                     TextBlock nameCell = (TextBlock)dg_searchResults.SelectedCells[1].Column.GetCellContent(dg_searchResults.SelectedItem);
                     TextBlock priceCell = (TextBlock)dg_searchResults.SelectedCells[3].Column.GetCellContent(dg_searchResults.SelectedItem);
-
-                    ContentDetail detail = new ContentDetail(idCell.Text, nameCell.Text, priceCell.Text + "€", loggedIn);
+                    ContentDetail detail = new ContentDetail(idCell.Text, nameCell.Text, priceCell.Text, loggedIn, Benutzernummer);
                     detail.ShowDialog();
                 }
-
             } catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                Errormsg err = new Errormsg(ex.Message);
+                err.Show();
             }
         }
     }

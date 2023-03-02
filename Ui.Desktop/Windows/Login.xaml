@@ -23,6 +23,8 @@
             <DropShadowEffect Direction="270" BlurRadius="10" ShadowDepth="1" />
         </Border.Effect>
         <Grid>
+
+
             <!-- Fenster-Titelleiste -->
             <Border Height="30" VerticalAlignment="Top" CornerRadius="5,5,0,0">
                 <Border.Background>
@@ -30,6 +32,30 @@
                 </Border.Background>
                 <Grid>
                     <TextBlock x:Name="windowTitle" Text="{Binding WindowTitle}" TextAlignment="Center" Padding="0,4,0,0" MouseDown="windowTitle_MouseDown" />
+                    <Image x:Name="img_lock" HorizontalAlignment="Right" Width="18" Margin="0,6,7,6" Source="/Images/lock_18dp.png" MouseEnter="img_lock_MouseEnter" MouseLeave="img_lock_MouseLeave">
+                        <Image.Triggers>
+                            <EventTrigger RoutedEvent="Image.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="grd_securityAlert" Storyboard.TargetProperty="(Grid.Opacity)" To="1" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="tr_securityWarning" Storyboard.TargetProperty="(TranslateTransform.Y)" To="0" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="sr_securityWarning" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="se_securityAlert" Storyboard.TargetProperty="(DropShadowEffect.Opacity)" To="1" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Image.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="grd_securityAlert" Storyboard.TargetProperty="(Grid.Opacity)" To="0" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="tr_securityWarning" Storyboard.TargetProperty="(TranslateTransform.Y)" To="-10" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="sr_securityWarning" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0.7" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="se_securityAlert" Storyboard.TargetProperty="(DropShadowEffect.Opacity)" To="0" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Image.Triggers>
+                    </Image>
                     <Grid Margin="6,6,0,0" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="17">
                         <Ellipse x:Name="ell_closeWindow" Style="{StaticResource redEllipse}" MouseDown="ell_closeWindow_MouseDown" />
                         <Grid.Triggers>
@@ -55,13 +81,14 @@
                 </Grid.RenderTransform>
                 <Image Source="/Images/user.png" Margin="0,20,0,0" HorizontalAlignment="Center" Width="85" Height="85" VerticalAlignment="Top" />
                 <TextBlock FontFamily="{StaticResource EncodeSansBlack}" Text="Benutzername" Margin="10,99,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                <TextBox Margin="10,119,10,0" VerticalAlignment="Top" Style="{StaticResource textBox}" />
+                <TextBox Text="{Binding Benutzername}" Margin="10,119,10,0" VerticalAlignment="Top" Style="{StaticResource textBox}" />
                 <TextBlock FontFamily="{StaticResource ResourceKey=EncodeSansBlack}" Text="Passwort" Margin="10,158,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <PasswordBox x:Name="txt_password" Margin="10,178,10,0" VerticalAlignment="Top" PasswordChanged="txt_password_PasswordChanged" />
                 <TextBlock Text="Du hast noch kein Benutzerkonto? Hier registrieren!" Cursor="Hand" Margin="0,0,10,10" TextDecorations="Underline" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FF0084FF" MouseDown="TextBlock_MouseDown" />
                 <Button Content="Anmelden" Command="{Binding PrepareSendData}" Margin="0,0,10,30" HorizontalAlignment="Right" Width="116" Height="34" VerticalAlignment="Bottom" Style="{StaticResource blueButton}" />
+                <TextBlock x:Name="txt_wrongPasswordText" Visibility="{Binding WrongTextVisibility}" Text="Benutzername oder Passwort falsch" FontFamily="{StaticResource EncodeSansBlack}" FontSize="14" TextWrapping="Wrap" Margin="10,0,0,38" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Red" />
             </Grid>
-            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding blurActivate}" VerticalAlignment="Top" Content="Blur aktivieren" Margin="-301,-35,0,0" Unchecked="CheckBox_Unchecked">
+            <CheckBox x:Name="cb_enableBlur" HorizontalAlignment="Left" IsChecked="{Binding blurActivate}" VerticalAlignment="Top" Content="Blur aktivieren" Margin="-301,-35,0,0" Unchecked="cb_enableBlur_Unchecked">
                 <CheckBox.Triggers>
                     <EventTrigger RoutedEvent="CheckBox.Checked">
                         <BeginStoryboard>
@@ -78,7 +105,6 @@
                                 <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1" From="0.95" Duration="0:0:0.1" />
                                 <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="1" From="0.95" Duration="0:0:0.1" />
                                 <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" From="25" To="0" Duration="0:0:0.1" />
-                                <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.1" />
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
@@ -87,20 +113,44 @@
             <Border Background="#7F000000" CornerRadius="5" Visibility="{Binding WaitGridVisibility}">
                 <TextBlock Text="Anmelden..." HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
             </Border>
-            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding blurActivate}" VerticalAlignment="Top" Content="Schließen-Animation" Margin="-175,-35,0,0" Unchecked="CheckBox_Unchecked">
+            <CheckBox x:Name="cb_closeWindow" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Schließen-Animation" Margin="-175,-35,0,0" Checked="cb_closeWindow_Checked">
                 <CheckBox.Triggers>
                     <EventTrigger RoutedEvent="CheckBox.Unchecked">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1" From="0.95" Duration="0:0:0.1" />
-                                <DoubleAnimation Storyboard.TargetName="gridTransform" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="1" From="0.95" Duration="0:0:0.1" />
-                                <DoubleAnimation Storyboard.TargetName="blr_windowBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" From="25" To="0" Duration="0:0:0.1" />
                                 <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0" From="1" Duration="0:0:0.1" />
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
                 </CheckBox.Triggers>
             </CheckBox>
+
+            <!-- Sicherheitshinweis -->
+            <Grid x:Name="grd_securityAlert" Visibility="Collapsed" Margin="0,33,4,0" Height="43" VerticalAlignment="Top" HorizontalAlignment="Right" Width="161" RenderTransformOrigin="0.5,0.5">
+                <Grid.Effect>
+                    <DropShadowEffect x:Name="se_securityAlert" ShadowDepth="2" Direction="270" BlurRadius="10" />
+                </Grid.Effect>
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="sr_securityWarning" ScaleY="0.7"/>
+                        <TranslateTransform x:Name="tr_securityWarning" Y="-10"/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Border HorizontalAlignment="Right" VerticalAlignment="Top" Width="10" Height="10" Background="#FFE8E8E8" RenderTransformOrigin="0.5,0.5" Margin="0,0,6,0" >
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="45"/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
+                </Border>
+                <Border Margin="0,5,0,-71" CornerRadius="5" Background="#FFE8E8E8">
+                    <Grid>
+                        <TextBlock Text="Dieses Fenster kann Auswirkungen auf deinen Account haben!" TextWrapping="Wrap" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top" Width="141" Foreground="Red" Margin="0,10,0,0" />
+                        <TextBlock Text="Was kann passieren?" TextWrapping="Wrap" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Top" Width="141"  Margin="0,67,0,0" TextDecorations="Underline" />
+                        <TextBlock Text="● Anmeldestatus ändern" TextWrapping="Wrap" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Top" Width="141"  Margin="0,82,0,0" />
+                    </Grid>
+                </Border>
+            </Grid>
         </Grid>
         <Border.Triggers>
             <EventTrigger RoutedEvent="Window.Loaded">
