@@ -49,9 +49,25 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#FFCFCFCF"/>
-            </Trigger>
+            <!-- Animationen, wenn Maus rüberfährt und klickt-->
+            <EventTrigger RoutedEvent="Button.MouseEnter">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="#FFCFCFCF" Duration="0:0:0.05"  />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="Button.MouseLeave">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="White" Duration="0:0:0.1"  />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
             <Trigger Property="IsMouseCaptured" Value="True">
                 <Setter Property="Background" Value="#FF9B9B9B"/>
             </Trigger>
@@ -91,6 +107,28 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
+            
+            <!-- Animationen, wenn Maus rüberfährt und klickt-->
+            <EventTrigger RoutedEvent="Button.MouseEnter">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="#FFCFCFCF" Duration="0:0:0.05"  />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="Button.MouseLeave">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="White" Duration="0:0:0.1"  />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+            
+            
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background">
                     <Setter.Value>
@@ -159,6 +197,44 @@
             </Trigger>
             <Trigger Property="IsMouseCaptured" Value="True">
                 <Setter Property="Background" Value="#FF737373"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Toogle-Button im Normal-Stil-->
+    <Style TargetType="{x:Type ToggleButton}" x:Key="normalToggleButton">
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="BorderBrush" Value="#FF7D7D7D" />
+                <Setter Property="BorderThickness" Value="1.5" />
+            </Style>
+        </Style.Resources>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="5" ShadowDepth="1.5" Direction="270" Opacity="0.3" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FFCFCFCF"/>
+            </Trigger>
+            <Trigger Property="IsMouseCaptured" Value="True">
+                <Setter Property="Background" Value="#FF9B9B9B"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="#FFD7E4FF"/>
             </Trigger>
         </Style.Triggers>
     </Style>

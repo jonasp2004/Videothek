@@ -16,6 +16,7 @@ namespace Ui.Desktop {
             Messenger.Default.Register<NavigationMessage>(this, msg => {
                 NavigateTo(msg.Page);
             });
+            txt_currVersion.Text = Properties.Settings.Default.thisVersion;
         }
 
         public MainWindow Delegate { get; set; }
@@ -56,8 +57,8 @@ namespace Ui.Desktop {
         // Fenster öffnen
 
         private void mi_search_Click(object sender, RoutedEventArgs e) {
-            Search search = new Search();
-            search.Show();
+            Search search = new Search(loggedIn,Benutzernummer);
+            search.ShowDialog();
         }
 
         private void btn_myAccount_Click(object sender, RoutedEventArgs e) {
@@ -89,11 +90,7 @@ namespace Ui.Desktop {
             }
         }
 
-        private async void cb_updateAvailable_Loaded(object sender, RoutedEventArgs e) {
-            await Timer(5000);
-            cb_updateAvailable.IsChecked = false;
-        }
-
+        private int Benutzernummer = -1;
         private void NavigateTo(string page = null) {
             switch (page) {
                 case "about":
@@ -105,8 +102,12 @@ namespace Ui.Desktop {
                     update.ShowDialog();
                     break;
                 case "usermanager":
-                    UserManagement usrmgmnt = new UserManagement();
-                    usrmgmnt.ShowDialog();
+                    try {
+                        UserManagement usrmgmnt = new UserManagement();
+                        usrmgmnt.ShowDialog();
+                    } catch (Exception ex) {
+                        Errormsg err = new Errormsg(ex.Message);
+                    }
                     break;
                 case "mediamanager":
                     MediaManagement mediamgmnt = new MediaManagement();
@@ -114,28 +115,41 @@ namespace Ui.Desktop {
                     break;
                 case "login":
                     Login login = new Login();
-                    login.ShowDialog();
-                    MainPageLoggedIn mainPageLoggedIn = new MainPageLoggedIn();
-                    fr_Main.Content = mainPageLoggedIn;
-                    grd_loggedIn.Visibility = Visibility.Visible;
-                    grd_loggedOut.Visibility = Visibility.Collapsed;
-                    loggedIn = true;
+                    if ((bool)login.ShowDialog() == true) {
+                        ((MainViewModel)(this.DataContext)).UserName = "@" + login.userName;
+                        ((MainViewModel)(this.DataContext)).FullName = login.fullName;
+                        if (login.isAdmin == 1) {
+                            mi_management.Visibility = Visibility.Visible;
+                            mi_management.IsEnabled = true;
+                        }
+                        Benutzernummer = login.userId;
+                        loggedIn = true;
+                        MainPageLoggedIn mainPageLoggedIn = new MainPageLoggedIn();
+                        fr_Main.Content = mainPageLoggedIn;
+                        grd_loggedIn.Visibility = Visibility.Visible;
+                        grd_loggedOut.Visibility = Visibility.Collapsed;
+                    }
                     break;
                 case "logout":
                     Logout logout = new Logout();
-                    logout.ShowDialog();
-                    MainPage mainPage = new MainPage();
-                    fr_Main.Content = mainPage;
-                    grd_loggedIn.Visibility = Visibility.Collapsed;
-                    grd_loggedOut.Visibility = Visibility.Visible;
-                    loggedIn = false;
+                    if((bool)logout.ShowDialog() == true) {
+                        MainPage mainPage = new MainPage();
+                        Benutzernummer = -1;
+                        mi_management.Visibility = Visibility.Collapsed;
+                        mi_management.IsEnabled = false;
+                        fr_Main.Content = mainPage;
+                        grd_loggedIn.Visibility = Visibility.Collapsed;
+                        grd_loggedOut.Visibility = Visibility.Visible;
+                        loggedIn = false;
+                    }
+                    
                     break;
                 case "register":
                     Register register = new Register();
                     register.ShowDialog();
                     break;
                 case "alleArtikel":
-                    Offerings offers = new Offerings(loggedIn);
+                    Offerings offers = new Offerings(loggedIn, Benutzernummer);
                     fr_Main.Content = offers;
                     break;
                 default:
@@ -147,5 +161,9 @@ namespace Ui.Desktop {
                     break;
             }
         }
+
+        private void btn_endProgram_Click(object sender, RoutedEventArgs e) { Environment.Exit(0); }
+
+        private void btn_hideNoInternet_Click(object sender, RoutedEventArgs e) { grd_noInternet.Visibility = Visibility.Collapsed; }
     }
 }
